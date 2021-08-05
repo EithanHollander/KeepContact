@@ -1,9 +1,15 @@
 :root {
   --main-color: #5af;
+  --white: rgb(252, 228, 228);
+  --black: rgb(20, 20, 20);
 }
 
 .App {
-  width: 100vw;
-  height: 100vh;
+  min-width: 100vh;
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
   background-color: var(--main-color);
+  text-align: center;
+  font-family: 'Fredoka One', cursive;
 }

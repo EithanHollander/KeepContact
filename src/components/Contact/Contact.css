@@ -1,0 +1,9 @@
+.Contact {
+  width: 200px;
+  height: 100px;
+  margin: auto;
+  margin-top: 10px;
+  border-radius: 5%;
+  background-color: var(--main-color);
+  color: var(--black);
+}
