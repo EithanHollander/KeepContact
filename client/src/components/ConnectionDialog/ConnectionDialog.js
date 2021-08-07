@@ -8,20 +8,28 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
+import WOC from "assets/WaysOfCommunications";
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Select from '@material-ui/core/Select';
+
 function ConnectionDialog (props) {
 
   const [contactName, setContactName] = useState("");
   const [showErrorForName, setErrorForName] = useState(false);
+  const [contactWOC, setContactWOC] = useState(WOC.EMPTY.id.toString());
   const isFirstRun = useRef(true);
 
   // NAME HANDLING
+  function changeContactName(val) {
+    setContactName(val);
+    props.howToChangeContact(prev => ({
+      ...prev,
+      name: val,
+    }));
+  }
   function updateContactName(event) {
-    setContactName(event.target.value);
-    props.howToChangeContact(prev =>
-      ({
-        ...prev,
-        name: event.target.value
-      }));
+    changeContactName(event.target.value);
   }
   useEffect(() => {
     if (isFirstRun.current) {
@@ -31,10 +39,25 @@ function ConnectionDialog (props) {
     setErrorForName(!contactName);
   }, [contactName]);
 
+  // WOC HANDLING
+  function changeContactWOC(val) {
+    console.log("changeContactWOC", val);
+    setContactWOC(val);
+    props.howToChangeContact(prev => ({
+      ...prev,
+      wayOfComm: val,
+    }));
+  }
+  function updateContactWOC(event) {
+    console.log("updateContactWOC", event.target.value);
+    changeContactWOC(event.target.value);
+  }
+
   // EXIT & FINISH DIALOG
   function exitDialogRoutine() {
-    setContactName("");
+    changeContactName("");
     setErrorForName(false);
+    changeContactWOC(WOC.EMPTY.id.toString());
     isFirstRun.current=true; //helps for setErrorForName for the next render
     props.howToCloseDialog();
   }
@@ -66,9 +89,16 @@ function ConnectionDialog (props) {
           fullWidth
           onChange={updateContactName}
         />
+        <FormControl>
+          <Select native onChange={updateContactWOC}>
+            {Object.keys(WOC).map((key, i) => (<option value={WOC[key].id}>{WOC[key].toString}</option>))}
+          </Select>
+          <FormHelperText>favorite way to communicate</FormHelperText>
+        </FormControl>
+
       </DialogContent>
       <DialogActions>
-        <Button style={{marginRight:"135px"}} onClick={exitDialogRoutine} color="secondary">
+        <Button onClick={exitDialogRoutine} color="secondary">
           Cancel
         </Button>
         <Button onClick={finishDialogAdd} color="primary">
