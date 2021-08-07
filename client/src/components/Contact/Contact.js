@@ -1,10 +1,8 @@
 import './Contact.css';
 
-function Contact () {
+function Contact (props) {
   return <div className="Contact">
-  <p> Name </p>
-  <p> way of contact </p>
-  <p> deprived time </p>
+  <p> {props.name} </p>
   </div>
 }
 
