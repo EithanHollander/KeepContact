@@ -1,12 +1,23 @@
 import './AddConnection.css';
-import React from 'react';
-import axios from 'axios';
 
+import ConnectionDialog from "components/ConnectionDialog/ConnectionDialog";
+import {useState} from 'react';
+import axios from 'axios';
 
 function AddConnection (props) {
 
-  function AddConnectionButton () {
-    axios.post("http://localhost:3001/contacts", {name: "wow"}).then((res) => {
+  const [isDialogOpen, setDialogOpen] = useState(false);
+  const [newContact, setNewContact] = useState({name: ""});
+
+  function openDialog () {
+    setDialogOpen(true);
+  };
+  function closeDialog () {
+    setDialogOpen(false);
+  };
+
+  function postAddConnection () {
+    axios.post("http://localhost:3001/contacts", newContact).then((res) => {
       console.log(res.data);
       props.updateContactListFunction(prev => !prev);
     });
@@ -15,9 +26,14 @@ function AddConnection (props) {
   return (
     <div className="AddConnection">
       <div className="add-connection-symbol">
-        <span onClick={AddConnectionButton}>+</span>
+        <span onClick={openDialog}>+</span>
       </div>
       <div className="add-connection-text">Add Connection</div>
+      <ConnectionDialog
+        isOpen={isDialogOpen}
+        howToCloseDialog={closeDialog}
+        howToChangeContact={setNewContact}
+        howToAddConnection={postAddConnection}></ConnectionDialog>
     </div>
   );
 }
