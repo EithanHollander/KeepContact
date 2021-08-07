@@ -1,0 +1,31 @@
+.AddConnection {
+  width: fit-content;
+  height: fit-content;
+  position: relative;
+  left: 30%;
+  top: 7rem;
+}
+
+.add-connection-symbol {
+  font-size: 15rem;
+  line-height: 0.4;
+  height: 9rem;
+  color: var(--white);
+  cursor: default;
+  overflow: hidden;
+}
+
+.add-connection-symbol span:hover {
+  font-size: 16rem;
+  transition: 0.2s;
+}
+
+.add-connection-symbol span:active {
+  color: var(--grey);
+}
+
+.add-connection-text {
+  font-size: 1.5rem;
+  color: var(--black);
+  cursor: default;
+}

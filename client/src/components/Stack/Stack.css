@@ -6,11 +6,11 @@
   border-radius: 3%;
   border: 1px black solid;
   position: relative;
-  left: 65%;
+  left: 50%;
   top: 3rem;
 }
 
-.inner {
+.stack-inner {
   width: 100%;
   height: 100%;
   overflow: hidden;

@@ -1,6 +1,7 @@
 :root {
   --main-color: #5af;
   --white: rgb(252, 228, 228);
+  --grey: rgb(200, 180, 180);
   --black: rgb(20, 20, 20);
 }
 
@@ -12,4 +13,10 @@
   background-color: var(--main-color);
   text-align: center;
   font-family: 'Fredoka One', cursive;
+}
+
+.app-inner {
+  display: flex;
+  width: 100%;
+  height: 100%;
 }

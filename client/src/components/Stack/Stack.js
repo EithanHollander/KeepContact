@@ -6,7 +6,7 @@ import Contact from "components/Contact/Contact";
 function Stack () {
     return (
       <div className="Stack">
-        <div className="inner">
+        <div className="stack-inner">
           <Contact/>
           <Contact/>
           <Contact/>
