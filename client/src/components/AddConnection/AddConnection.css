@@ -24,6 +24,11 @@
   color: var(--grey);
 }
 
+.add-connection-symbol span::selection {
+  color: var(--white);
+}
+
+
 .add-connection-text {
   font-size: 1.5rem;
   color: var(--black);

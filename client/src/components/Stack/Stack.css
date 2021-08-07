@@ -1,8 +1,12 @@
+:root {
+  --scrollbar_width: 3px;
+  --scrollbar_padding: 5px;
+}
 .Stack {
   width: fit-content;
   padding: 15px;
   height: 500px;
-  min-width: 200px;
+  min-width: calc(200px + var(--scrollbar_width) + var(--scrollbar_padding));
   background-color: var(--white);
   border-radius: 3%;
   border: 1px black solid;
@@ -14,5 +18,26 @@
 .stack-inner {
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow: auto;
+  padding-right: var(--scrollbar_padding);
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: var(--scrollbar_width);
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--white);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--main-color);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--black);
 }
