@@ -19,12 +19,24 @@ function Contact (props) {
     });
   }
 
+  function timeToDisplay() {
+    var timeDiff = TimeDiff(props.value.nextComm).toString();
+    if (timeDiff.includes('after')) {
+      timeDiff = timeDiff.replace('after', '');
+      timeDiff = 'in ' + timeDiff;
+    }
+    else {
+      timeDiff = timeDiff.replace('ago', 'late');
+    }
+    return timeDiff;
+  }
+
   return (
     <div className="Contact">
       <div className="contact-details">
         <p> {props.value.name} </p>
         <p> {stringWOC} </p>
-        <p> {TimeDiff(props.value.lastCommunicated)}</p>
+        <p> {timeToDisplay()}</p>
       </div>
       <div className="contact-actions">
         <IconButton style={{color: "var(--white)"}} onClick={updateComm}>

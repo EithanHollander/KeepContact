@@ -11,7 +11,11 @@ function AddConnection (props) {
   const EMPTY_CONTACT = {
     name: "",
     woc: WOC.EMPTY.id,
-    lastCommunicated: new Date().toJSON()
+    lastCommunicated: new Date().toJSON(),
+    recurrence: {
+      amount: 1,
+      jump: "week"
+    }
   }
 
   const [isDialogOpen, setDialogOpen] = useState(false);

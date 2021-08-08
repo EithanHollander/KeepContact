@@ -11,7 +11,6 @@
   line-height: 0.4;
   height: 9rem;
   color: var(--white);
-  cursor: default;
   overflow: hidden;
 }
 
@@ -20,17 +19,7 @@
   transition: 0.2s;
 }
 
-.add-connection-symbol span:active {
-  color: var(--grey);
-}
-
-.add-connection-symbol span::selection {
-  color: var(--white);
-}
-
-
 .add-connection-text {
   font-size: 1.5rem;
   color: var(--black);
-  cursor: default;
 }

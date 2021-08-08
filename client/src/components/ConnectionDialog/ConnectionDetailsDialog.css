@@ -1,0 +1,11 @@
+.form-control-name {
+  display: block;
+}
+
+.form-control-woc {
+  display: block !important;
+}
+
+.form-control-recurrence {
+  display: block !important;
+}
