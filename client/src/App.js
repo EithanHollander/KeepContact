@@ -15,7 +15,7 @@ function App() {
       <Header></Header>
       <div className="app-inner">
         <AddConnection updateContactListFunction={setUpdateContactListToggle}></AddConnection>
-        <Stack shouldUpdateContactList={updateContactListToggle}></Stack>
+        <Stack shouldUpdateContactList={updateContactListToggle} updateContactListFunction={setUpdateContactListToggle}></Stack>
       </div>
     </div>
   );

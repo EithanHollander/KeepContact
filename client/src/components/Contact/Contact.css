@@ -6,4 +6,14 @@
   border-radius: 5%;
   background-color: var(--main-color);
   color: var(--black);
+  display: flex;
+}
+
+.contact-details {
+  width: 70%;
+}
+
+.contact-actions {
+  width: 30%;
+  margin-top: 10px;
 }

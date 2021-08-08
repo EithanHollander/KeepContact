@@ -37,7 +37,7 @@ function Stack (props) {
     <div className="Stack">
       <div className="stack-inner">
         {contactsList.map((contact, i) => {
-          return <Contact key={i} value={contact}></Contact>
+          return <Contact key={i} value={contact} updateContactListFunction={props.updateContactListFunction}></Contact>
         })}
       </div>
     </div>
