@@ -1,6 +1,7 @@
 import './AddConnection.css';
 
-import ConnectionDialog from "components/ConnectionDialog/ConnectionDialog";
+import ConnectionDetailsDialog from "components/ConnectionDialog/ConnectionDetailsDialog";
+
 import WOC from "assets/WaysOfCommunications"
 import { useState } from 'react';
 import axios from 'axios';
@@ -10,7 +11,7 @@ function AddConnection (props) {
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [newContact, setNewContact] = useState({
     name: "",
-    wayOfComm: WOC.EMPTY.id.toString(),
+    woc: WOC.EMPTY.id,
     lastCommunicated: new Date().toJSON()
   });
 
@@ -38,11 +39,11 @@ function AddConnection (props) {
         <span onClick={openDialog}>+</span>
       </div>
       <div className="add-connection-text">Add Connection</div>
-      <ConnectionDialog
+      <ConnectionDetailsDialog
         isOpen={isDialogOpen}
         howToCloseDialog={closeDialog}
-        howToChangeContact={setNewContact}
-        howToAddConnection={postAddConnection}></ConnectionDialog>
+        howToUpdateContact={setNewContact}
+        howToPostForm={postAddConnection}/>
     </div>
   );
 }

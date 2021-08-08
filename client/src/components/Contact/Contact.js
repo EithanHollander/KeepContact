@@ -8,7 +8,7 @@ import axios from 'axios';
 import TimeDiff from 'js-time-diff';
 
 function Contact (props) {
-  const keyWOC = Object.keys(WOC).find(key => WOC[key].id.toString()===props.value.wayOfComm);
+  const keyWOC = Object.keys(WOC).find(key => WOC[key].id.toString()===props.value.woc);
   const stringWOC = Object.keys(WOC).filter(key => key===keyWOC).map(key => WOC[key].toString);
 
   function updateComm() {
