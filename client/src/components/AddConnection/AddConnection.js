@@ -8,18 +8,17 @@ import axios from 'axios';
 
 function AddConnection (props) {
 
-  const [isDialogOpen, setDialogOpen] = useState(false);
-  const [newContact, setNewContact] = useState({
+  const EMPTY_CONTACT = {
     name: "",
     woc: WOC.EMPTY.id,
     lastCommunicated: new Date().toJSON()
-  });
+  }
+
+  const [isDialogOpen, setDialogOpen] = useState(false);
+  const [newContact, setNewContact] = useState(EMPTY_CONTACT);
 
   function openDialog () {
-    setNewContact(prev => ({
-      ...prev,
-      lastCommunicated: new Date().toJSON()
-    }))
+    setNewContact(EMPTY_CONTACT);
     setDialogOpen(true);
   };
   function closeDialog () {
