@@ -25,7 +25,7 @@ function ConnectionDialog (props) {
     setContactName(val);
     props.howToChangeContact(prev => ({
       ...prev,
-      name: val,
+      name: val
     }));
   }
   function updateContactName(event) {
@@ -41,28 +41,36 @@ function ConnectionDialog (props) {
 
   // WOC HANDLING
   function changeContactWOC(val) {
-    console.log("changeContactWOC", val);
     setContactWOC(val);
     props.howToChangeContact(prev => ({
       ...prev,
-      wayOfComm: val,
+      wayOfComm: val
     }));
   }
   function updateContactWOC(event) {
-    console.log("updateContactWOC", event.target.value);
     changeContactWOC(event.target.value);
   }
+
+  // LAST COMM HANDLING
+  function changeContactLastComm(val) {
+    setContactWOC(val);
+    props.howToChangeContact(prev => ({
+      ...prev,
+      lastCommunicated: val
+    }));
+  }
+
 
   // EXIT & FINISH DIALOG
   function exitDialogRoutine() {
     changeContactName("");
     setErrorForName(false);
     changeContactWOC(WOC.EMPTY.id.toString());
+    changeContactLastComm(new Date().toJSON());
     isFirstRun.current=true; //helps for setErrorForName for the next render
     props.howToCloseDialog();
   }
   function finishDialogAdd() {
-    console.log(contactName);
     if (!contactName) {
       setErrorForName(true);
       return;

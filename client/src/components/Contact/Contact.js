@@ -5,6 +5,8 @@ import IconButton from '@material-ui/core/IconButton';
 import DoneIcon from '@material-ui/icons/Done';
 import axios from 'axios';
 
+import TimeDiff from 'js-time-diff';
+
 function Contact (props) {
   const keyWOC = Object.keys(WOC).find(key => WOC[key].id.toString()===props.value.wayOfComm);
   const stringWOC = Object.keys(WOC).filter(key => key===keyWOC).map(key => WOC[key].toString);
@@ -15,7 +17,6 @@ function Contact (props) {
       console.log(res.data);
       props.updateContactListFunction(prev => !prev);
     });
-
   }
 
   return (
@@ -23,6 +24,7 @@ function Contact (props) {
       <div className="contact-details">
         <p> {props.value.name} </p>
         <p> {stringWOC} </p>
+        <p> {TimeDiff(props.value.lastCommunicated)}</p>
       </div>
       <div className="contact-actions">
         <IconButton style={{color: "var(--white)"}} onClick={updateComm}>

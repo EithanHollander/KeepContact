@@ -2,15 +2,23 @@ import './AddConnection.css';
 
 import ConnectionDialog from "components/ConnectionDialog/ConnectionDialog";
 import WOC from "assets/WaysOfCommunications"
-import {useState} from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
 function AddConnection (props) {
 
   const [isDialogOpen, setDialogOpen] = useState(false);
-  const [newContact, setNewContact] = useState({name: "", wayOfComm: WOC.EMPTY.id.toString()});
+  const [newContact, setNewContact] = useState({
+    name: "",
+    wayOfComm: WOC.EMPTY.id.toString(),
+    lastCommunicated: new Date().toJSON()
+  });
 
   function openDialog () {
+    setNewContact(prev => ({
+      ...prev,
+      lastCommunicated: new Date().toJSON()
+    }))
     setDialogOpen(true);
   };
   function closeDialog () {
