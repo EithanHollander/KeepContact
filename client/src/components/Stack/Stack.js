@@ -1,6 +1,7 @@
 import './Stack.css';
 import {useState, useEffect} from 'react';
 import axios from 'axios';
+import SERVER_IP_ADDRESS from "assets/addresses";
 
 import Contact from "components/Contact/Contact";
 
@@ -10,7 +11,7 @@ function Stack (props) {
   const [contactListTimeRendering, setContactListTimeRendering] = useState(false);
 
   function updateContactList() {
-    axios.get("http://localhost:3001/contacts").then((res) => {
+    axios.get(SERVER_IP_ADDRESS + "/contacts").then((res) => {
       console.log(res.data);
       setContactsList(res.data);
     });
@@ -36,6 +37,7 @@ function Stack (props) {
   return (
     <div className="Stack">
       <div className="stack-inner">
+
         {contactsList.map((contact, i) => {
           return <Contact key={i} value={contact} updateContactListFunction={props.updateContactListFunction}></Contact>
         })}

@@ -3,6 +3,7 @@
   height: 100px;
   margin: auto;
   margin-top: 10px;
+  padding-top: 10px;
   border-radius: 5%;
   background-color: var(--main-color);
   color: var(--black);
@@ -11,9 +12,17 @@
 
 .contact-details {
   width: 70%;
+  padding-left: 10px;
+}
+
+.contact-details-row {
+  text-align: left;
+}
+
+.contact-details-row span {
+  vertical-align: super;
 }
 
 .contact-actions {
   width: 30%;
-  margin-top: 10px;
 }

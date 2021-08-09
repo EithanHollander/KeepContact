@@ -5,6 +5,8 @@ import ConnectionDetailsDialog from "components/ConnectionDialog/ConnectionDetai
 import WOC from "assets/WaysOfCommunications"
 import { useState } from 'react';
 import axios from 'axios';
+import SERVER_IP_ADDRESS from "assets/addresses";
+
 
 function AddConnection (props) {
 
@@ -30,7 +32,7 @@ function AddConnection (props) {
   };
 
   function postAddConnection () {
-    axios.post("http://localhost:3001/contacts", newContact).then((res) => {
+    axios.post(SERVER_IP_ADDRESS + "/contacts", newContact).then((res) => {
       console.log(res.data);
       props.updateContactListFunction(prev => !prev);
     });
