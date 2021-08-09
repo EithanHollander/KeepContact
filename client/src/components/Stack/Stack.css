@@ -5,15 +5,24 @@
 .Stack {
   width: fit-content;
   padding: 15px;
-  height: 500px;
   min-width: calc(200px + var(--scrollbar_width) + var(--scrollbar_padding));
   background-color: var(--white);
   border-radius: 3%;
   border: 1px black solid;
-  position: relative;
-  left: 50%;
-  top: 3rem;
 }
+
+.stack-shift-left {
+  position: relative;
+  top: 3rem;
+  left: 50%;
+}
+
+.stack-center {
+  position: relative;
+  top: 30px;
+  margin: auto;
+}
+
 
 .stack-inner {
   width: 100%;

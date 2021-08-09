@@ -5,7 +5,7 @@
   --black: rgb(20, 20, 20);
 }
 
-.App {
+.BrowserApp {
   min-width: 100vh;
   width: 100%;
   min-height: 100vh;
@@ -20,8 +20,19 @@
   user-select: none;
 }
 
-.app-inner {
+.browser-app-inner {
   display: flex;
   width: 100%;
   height: 100%;
+}
+
+.MobileApp {
+  background-color: var(--main-color);
+  text-align: center;
+  font-family: 'Fredoka One', cursive;
+  cursor: default;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }

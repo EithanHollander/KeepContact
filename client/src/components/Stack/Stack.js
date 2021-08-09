@@ -4,6 +4,7 @@ import axios from 'axios';
 import SERVER_IP_ADDRESS from "assets/addresses";
 
 import Contact from "components/Contact/Contact";
+import { isBrowser } from 'react-device-detect';
 
 function Stack (props) {
 
@@ -32,10 +33,10 @@ function Stack (props) {
     return () => clearTimeout(timer);
   });
 
-
-
   return (
-    <div className="Stack">
+    <div
+    className={"Stack" + (isBrowser ? " stack-shift-left" : " stack-center")}
+    style={{height: (isBrowser ? "500px" : ((window.innerHeight - 100) + "px"))}}>
       <div className="stack-inner">
 
         {contactsList.map((contact, i) => {
