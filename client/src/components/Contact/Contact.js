@@ -12,10 +12,10 @@ import axios from 'axios';
 import SERVER_IP_ADDRESS from "assets/addresses";
 
 import TimeDiff from 'js-time-diff';
+import { EmailShareButton, WhatsappShareButton } from 'react-share'
 
 function Contact (props) {
   const keyWOC = Object.keys(WOC).find(key => WOC[key].id.toString()===props.value.woc);
-  const stringWOC = Object.keys(WOC).filter(key => key===keyWOC).map(key => WOC[key].toString);
 
   function updateComm() {
     var now = new Date();
@@ -38,7 +38,7 @@ function Contact (props) {
         wocIcon = <CallOutlinedIcon/>;
         break;
       case WOC.WHATSAPP.id:
-        wocIcon = <WhatsAppIcon/>;
+        wocIcon = <WhatsappShareButton url="היי, מה קורה?"><WhatsAppIcon/></WhatsappShareButton>;
         break;
       default:
         wocIcon = <PersonOutlineIcon/>;
