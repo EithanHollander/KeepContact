@@ -26,16 +26,15 @@ export default function Stack () {
   function renderContact({item}) {
     return (
       <Contact
+      style={styles.ContactExternalStyle}
       contactDetails={item}
-      additionalStyle={styles.ContactExternalStyle}
-      updateContactsListFunction={updateContactsList}/>  
+      updateContactsListFunction={updateContactsList}/>
     )
   }
 
   return (
     <View style={styles.Stack}>
       <FlatList
-        style={styles.InnerStack}
         data={contactsList}
         renderItem={renderContact}
         keyExtractor={item => item._id}
@@ -50,8 +49,6 @@ const styles = StyleSheet.create({
   Stack: {
     backgroundColor: 'transparent',
     height: 600
-  },
-  InnerStack: {
   },
   ContactExternalStyle: {
     marginBottom: 10

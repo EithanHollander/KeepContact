@@ -10,7 +10,7 @@ import TimeDiff from 'js-time-diff';
 import axios from 'axios';
 import SERVER_IP_ADDRESS from '@sita/ips';
 
-export default function Contact ({contactDetails, additionalStyle, updateContactsListFunction}) {
+export default function Contact ({style, contactDetails, updateContactsListFunction}) {
 
   function updateComm() {
     var now = new Date();
@@ -31,7 +31,7 @@ export default function Contact ({contactDetails, additionalStyle, updateContact
   }
 
   return (
-    <View style={[styles.Contact, additionalStyle]}>
+    <View style={[styles.Contact, style]}>
       <View style={styles.ContactDetails}>
         <View style={styles.ContactDetailRow}>
             {wocIcon(contactDetails)}
