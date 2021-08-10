@@ -4,7 +4,7 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import wocIcon from '@sita/woc';
+import { wocIcon } from '@sita/woc';
 import TimeDiff from 'js-time-diff';
 
 import axios from 'axios';
@@ -34,7 +34,7 @@ export default function Contact ({contactDetails, additionalStyle, updateContact
     <View style={[styles.Contact, additionalStyle]}>
       <View style={styles.ContactDetails}>
         <View style={styles.ContactDetailRow}>
-            {wocIcon(contactDetails.woc)}
+            {wocIcon(contactDetails)}
           <Text> {contactDetails.name}</Text>
         </View>
         <View style={styles.ContactDetailRow}>
