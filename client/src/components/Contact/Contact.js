@@ -1,6 +1,5 @@
 import './Contact.css';
 
-import WOC from "assets/WaysOfCommunications";
 import IconButton from '@material-ui/core/IconButton';
 import DoneIcon from '@material-ui/icons/Done';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
@@ -12,10 +11,9 @@ import axios from 'axios';
 import SERVER_IP_ADDRESS from "assets/addresses";
 
 import TimeDiff from 'js-time-diff';
-import { EmailShareButton, WhatsappShareButton } from 'react-share'
+import { WhatsappShareButton } from 'react-share'
 
 function Contact (props) {
-  const keyWOC = Object.keys(WOC).find(key => WOC[key].id.toString()===props.value.woc);
 
   function updateComm() {
     var now = new Date();
@@ -27,17 +25,17 @@ function Contact (props) {
 
   function wocToDisplay() {
     var wocIcon;
-    switch (parseInt(props.value.woc)) {
-      case WOC.EMPTY.id:
+    switch (props.value.woc) {
+      case "empty":
         wocIcon = <PersonOutlineIcon/>;
         break;
-      case WOC.MEETUP.id:
+      case "meet":
         wocIcon = <RoomOutlinedIcon/>
         break;
-      case WOC.PHONE_CALL.id:
+      case "call":
         wocIcon = <CallOutlinedIcon/>;
         break;
-      case WOC.WHATSAPP.id:
+      case "whatsapp":
         wocIcon = <WhatsappShareButton url="היי, מה קורה?"><WhatsAppIcon/></WhatsappShareButton>;
         break;
       default:

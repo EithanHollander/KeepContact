@@ -2,7 +2,6 @@ import './AddConnection.css';
 
 import ConnectionDetailsDialog from "components/ConnectionDialog/ConnectionDetailsDialog";
 
-import WOC from "assets/WaysOfCommunications"
 import { useState } from 'react';
 import axios from 'axios';
 import SERVER_IP_ADDRESS from "assets/addresses";
@@ -12,7 +11,7 @@ function AddConnection (props) {
 
   const EMPTY_CONTACT = {
     name: "",
-    woc: WOC.EMPTY.id,
+    woc: "empty",
     lastCommunicated: new Date().toJSON(),
     recurrence: {
       amount: 1,

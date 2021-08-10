@@ -24,7 +24,12 @@ export default function Stack () {
   }, [])
 
   function renderContact({item}) {
-    return <Contact contactName={item.name} additionalStyle={styles.ContactExternalStyle}/>
+    return (
+      <Contact
+      contactDetails={item}
+      additionalStyle={styles.ContactExternalStyle}
+      updateContactsListFunction={updateContactsList}/>  
+    )
   }
 
   return (

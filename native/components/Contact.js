@@ -4,64 +4,46 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import wocIcon from '@sita/woc';
+import TimeDiff from 'js-time-diff';
 
-export default function Contact ({contactName, additionalStyle}) {
+import axios from 'axios';
+import SERVER_IP_ADDRESS from '@sita/ips';
 
-  function wocIcon(woc) {
-    var icon;
-    switch (woc) {
-      case "empty":
-        icon = (
-          <TouchableOpacity onPress={() => alert("person")}>
-            <MaterialIcons name='person-outline' size={30} color='#5af'/>
-          </TouchableOpacity>
-        )
-        break;
-      case "whatsapp":
-        icon = (
-          <TouchableOpacity onPress={() => alert("whatsapp")}>
-            <MaterialCommunityIcons name='whatsapp' size={30} color='#5af'/>
-          </TouchableOpacity>
-        )
-        break;
-      case "call":
-        icon = (
-          <TouchableOpacity onPress={() => alert("call")}>
-            <MaterialIcons name='call' size={30} color='#5af'/>
-          </TouchableOpacity>
-        )
-        break;
-      case "meet":
-        icon = (
-          <TouchableOpacity onPress={() => alert("meet up")}>
-            <MaterialIcons name='location-on' size={30} color='#5af'/>
-          </TouchableOpacity>
-        )
-        break;
-      default:
-        icon = (
-          <TouchableOpacity onPress={() => alert("person")}>
-            <MaterialIcons name='person-outline' size={30} color='#5af'/>
-          </TouchableOpacity>
-        )
+export default function Contact ({contactDetails, additionalStyle, updateContactsListFunction}) {
+
+  function updateComm() {
+    var now = new Date();
+    axios.put(SERVER_IP_ADDRESS + "/comm", {id: contactDetails._id, date: now.toJSON()}).then((res) => {
+      updateContactsListFunction();
+    });
+  }
+
+  function timeToDisplay(nextComm) {
+    var timeDiff = TimeDiff(nextComm).toString();
+    if (timeDiff.includes('after')) {
+      timeDiff = 'in ' + timeDiff.replace('after', '');
     }
-    return icon;
+    else {
+      timeDiff = timeDiff.replace('ago', 'late');
+    }
+    return timeDiff;
   }
 
   return (
     <View style={[styles.Contact, additionalStyle]}>
       <View style={styles.ContactDetails}>
         <View style={styles.ContactDetailRow}>
-            { wocIcon("meet") }
-          <Text> {contactName}</Text>
+            {wocIcon(contactDetails.woc)}
+          <Text> {contactDetails.name}</Text>
         </View>
         <View style={styles.ContactDetailRow}>
           <MaterialIcons name='schedule' size={30} color='#5af' />
-          <Text> in _ days</Text>
+          <Text> {timeToDisplay(contactDetails.nextComm)}</Text>
         </View>
       </View>
       <View style={styles.ContactActions}>
-        <TouchableOpacity onPress={() => alert("done!")}>
+        <TouchableOpacity onPress={() => {updateComm();}}>
           <MaterialIcons name='done' size={30} color='#5af'/>
         </TouchableOpacity>
       </View>

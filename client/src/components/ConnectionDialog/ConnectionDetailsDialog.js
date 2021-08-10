@@ -14,8 +14,6 @@ import Select from '@material-ui/core/Select';
 import Divider from '@material-ui/core/Divider';
 import Input from '@material-ui/core/Input';
 
-import WOC from "assets/WaysOfCommunications";
-
 import { useState, useEffect } from 'react';
 
 function ConnectionDetailsDialog({isOpen, howToCloseDialog, howToUpdateContact, howToPostForm}) {
@@ -79,7 +77,10 @@ function ConnectionDetailsDialog({isOpen, howToCloseDialog, howToUpdateContact, 
           <FormControl margin="dense" className="form-control-woc">
             <FormHelperText id="select-woc-helper-text">Favorite way to communicate:</FormHelperText>
             <Select native aria-describedby="select-woc-helper-text" name="woc" onChange={handleInputChange}>
-              {Object.keys(WOC).map((key, i) => (<option key={i} value={WOC[key].id}>{WOC[key].toString}</option>))}
+              <option value="empty"></option>
+              <option value="whatsapp">Whatsapp</option>
+              <option value="call">Phone Call</option>
+              <option value="meet">Meet Up</option>
             </Select>
           </FormControl>
 
