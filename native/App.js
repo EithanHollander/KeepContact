@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, Button } from 'react-native';
 
-import Contact from '@sit/Contact/Contact';
+import Contact from '@sit/Contact';
+import Stack from '@sit/Stack';
 
 export default function App() {
 
@@ -10,7 +11,7 @@ export default function App() {
     <View style={styles.App}>
       <StatusBar style="light"/>
       <View>
-        <Contact/>
+        <Stack/>
       </View>
     </View>
   );

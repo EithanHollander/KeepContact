@@ -5,7 +5,7 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-export default function Contact () {
+export default function Contact ({contactName, additionalStyle}) {
 
   function wocIcon(woc) {
     var icon;
@@ -49,11 +49,11 @@ export default function Contact () {
   }
 
   return (
-    <View style={styles.Contact}>
+    <View style={[styles.Contact, additionalStyle]}>
       <View style={styles.ContactDetails}>
         <View style={styles.ContactDetailRow}>
             { wocIcon("meet") }
-          <Text> name of contact</Text>
+          <Text> {contactName}</Text>
         </View>
         <View style={styles.ContactDetailRow}>
           <MaterialIcons name='schedule' size={30} color='#5af' />
@@ -77,14 +77,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 20,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 10
-
+    justifyContent: 'space-between'
   },
   ContactDetailRow: {
     flexDirection: 'row',
@@ -92,3 +85,8 @@ const styles = StyleSheet.create({
     marginBottom: 10
   }
 });
+
+Contact.defaultProps = {
+  contactName: 'Contact',
+  margin: 0
+}
