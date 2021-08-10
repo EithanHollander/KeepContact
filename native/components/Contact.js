@@ -69,6 +69,5 @@ const styles = StyleSheet.create({
 });
 
 Contact.defaultProps = {
-  contactName: 'Contact',
-  margin: 0
+  additionalStyle: {}
 }
