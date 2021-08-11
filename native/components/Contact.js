@@ -2,6 +2,9 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
+import { connect } from 'react-redux'
+import { getContacts } from 'sitapp/store/actions/contactsActions';
+
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { wocIcon } from '@sita/woc';
@@ -10,12 +13,12 @@ import TimeDiff from 'js-time-diff';
 import axios from 'axios';
 import SERVER_IP_ADDRESS from '@sita/ips';
 
-export default function Contact ({style, contactDetails, updateContactsListFunction}) {
-
+function Contact (props) {
+  const {style, contactDetails, getContacts} = props;
   function updateComm() {
     var now = new Date();
     axios.put(SERVER_IP_ADDRESS + "/comm", {id: contactDetails._id, date: now.toJSON()}).then((res) => {
-      updateContactsListFunction();
+      getContacts();
     });
   }
 
@@ -69,5 +72,9 @@ const styles = StyleSheet.create({
 });
 
 Contact.defaultProps = {
-  additionalStyle: {}
+  style: {}
 }
+
+const mapStateToProps  = (state) => ({})
+
+export default connect(mapStateToProps, {getContacts})(Contact);

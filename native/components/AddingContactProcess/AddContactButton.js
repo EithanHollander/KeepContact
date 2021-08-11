@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
-import ContactDetailsModal from '@sit/ContactDetailsModal';
+import AddContactModal from '@sit/AddingContactProcess/AddContactModal';
 
 export default function AddContactButton ({style}) {
 
@@ -15,7 +15,7 @@ export default function AddContactButton ({style}) {
       >
         <Text>Add Contact</Text>
       </TouchableOpacity>
-      <ContactDetailsModal
+      <AddContactModal
         visibilty={[modalVisible, setModalVisible]}
       />
     </View>

@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
+
+import store from 'sitapp/store/store';
+import { Provider } from 'react-redux';
+
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 
 import Contact from '@sit/Contact';
 import Stack from '@sit/Stack';
-import AddContactButton from '@sit/AddContactButton';
+import AddContactButton from '@sit/AddingContactProcess/AddContactButton';
+
 
 export default function App() {
 
@@ -12,8 +17,10 @@ export default function App() {
     <View style={styles.App}>
       <StatusBar style="light"/>
       <View>
-        <AddContactButton style={styles.AddContactButtonExternalStyle} />
-        <Stack/>
+        <Provider store={store}>
+          <AddContactButton style={styles.AddContactButtonExternalStyle} />
+          <Stack/>
+        </Provider>
       </View>
     </View>
   );

@@ -19,7 +19,7 @@ import { useState, useEffect } from 'react';
 function ConnectionDetailsDialog({isOpen, howToCloseDialog, howToUpdateContact, howToPostForm}) {
 
   const [recurrence, setRecurrence] = useState({
-    amount: 1,
+    amount: "1",
     jump: "week"
   });
 
@@ -33,7 +33,7 @@ function ConnectionDetailsDialog({isOpen, howToCloseDialog, howToUpdateContact, 
   function handleRecurrenceInputChange(event) {
     setRecurrence(prev => ({
       ...prev,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value.toString()
     }));
   }
   useEffect(() => {
@@ -44,7 +44,7 @@ function ConnectionDetailsDialog({isOpen, howToCloseDialog, howToUpdateContact, 
   }, [recurrence, howToUpdateContact]);
   useEffect(() => {
     setRecurrence({
-      amount: 1,
+      amount: "1",
       jump: "week"
     });
     howToUpdateContact(prev => ({

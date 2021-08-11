@@ -14,7 +14,7 @@ function AddConnection (props) {
     woc: "empty",
     lastCommunicated: new Date().toJSON(),
     recurrence: {
-      amount: 1,
+      amount: "1",
       jump: "week"
     }
   }
