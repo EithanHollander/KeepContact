@@ -10,7 +10,7 @@ import SERVER_IP_ADDRESS from '@sita/ips';
 
 import SwipeActions from '@sit/ContactDetails/SwipeActions';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { wocIcon } from '@sita/woc';
+import { EmailWOC, WhatsappWOC, PhoneCallWOC, MeetUpWOC } from '@sit/ContactDetails/WaysOfContact';
 import TimeDiff from 'js-time-diff';
 
 
@@ -46,10 +46,10 @@ function Contact (props) {
 
       <View style={styles.ContactDetails}>
         <View style={styles.ContactWocRow}>
-          {wocIcon("whatsapp", contactDetails)}
-          {wocIcon("call", contactDetails)}
-          {wocIcon("meet", contactDetails)}
-          {wocIcon("email", contactDetails)}
+          <WhatsappWOC contactDetails={contactDetails}/>
+          <PhoneCallWOC contactDetails={contactDetails}/>
+          <MeetUpWOC contactDetails={contactDetails}/>
+          <EmailWOC contactDetails={contactDetails}/>
         </View>
 
         <View style={styles.ContactDetailRow}>
