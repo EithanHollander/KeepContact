@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   ContactProcessName: {
     flexDirection: 'row',
     height: '100%',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   NameInput: {
     height: 40,

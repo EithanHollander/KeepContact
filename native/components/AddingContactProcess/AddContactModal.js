@@ -8,13 +8,15 @@ import { connect } from 'react-redux'
 import { getContacts } from 'sitapp/store/actions/contactsActions';
 
 import ContactProcessName from '@sit/AddingContactProcess/ContactProcessName';
+import ContactProcessDetails from '@sit/AddingContactProcess/ContactProcessDetails';
 import ContactProcessRecurrence from '@sit/AddingContactProcess/ContactProcessRecurrence';
 
 function AddContactModal (props) {
 
   const EMPTY_CONTACT = {
     name: "",
-    woc: "",
+    phone: "",
+    email: "",
     lastCommunicated: new Date().toJSON(),
     recurrence: {
       amount: "1",
@@ -65,6 +67,9 @@ function AddContactModal (props) {
       case 1:
         title = "How Often?";
         break;
+      case 2:
+        title = "Tell Me More";
+        break;
       default:
         title = ""
     }
@@ -95,18 +100,19 @@ function AddContactModal (props) {
                 <View style={[styles.modalInputs]}>
                   {modalStage === 0 && <ContactProcessName nameState={[newContact.name, setNewContact]} validState={[stageValidity, setStageValidity]}/>}
                   {modalStage === 1 && <ContactProcessRecurrence recurrenceState={[newContact.recurrence, setNewContact]} validState={[stageValidity, setStageValidity]}/>}
+                  {modalStage === 2 && <ContactProcessDetails emailState={[newContact.email, setNewContact]} phoneState={[newContact.phone, setNewContact]} validState={[stageValidity, setStageValidity]}/>}
                 </View>
 
                 {/* Modal Actions */}
                 <View style={styles.modalActions}>
-                  {modalStage > 0 && modalStage <= 1 &&
+                  {modalStage > 0 && modalStage <= 2 &&
                     <TouchableOpacity
                       style={styles.Action}
                       onPress={pressPrevious}>
                       <Text>Previous</Text>
                     </TouchableOpacity>
                   }
-                  {modalStage >= 0 && modalStage < 1 &&
+                  {modalStage >= 0 && modalStage < 2 &&
                     <TouchableOpacity
                       style={[styles.Action, (stageValidity? null : styles.disabledAction)]}
                       disabled={!stageValidity}
@@ -114,7 +120,7 @@ function AddContactModal (props) {
                       <Text>Next</Text>
                     </TouchableOpacity>
                   }
-                  {modalStage === 1 &&
+                  {modalStage === 2 &&
                     <TouchableOpacity
                       style={[styles.Action, (stageValidity? null : styles.disabledAction)]}
                       disabled={!stageValidity}

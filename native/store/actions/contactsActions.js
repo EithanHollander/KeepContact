@@ -3,7 +3,6 @@ import SERVER_IP_ADDRESS from '@sita/ips';
 import axios from 'axios';
 
 export const getContacts = () => async dispatch => {
-  console.log("get contacts");
   try {
       const res = await axios.get(SERVER_IP_ADDRESS + "/contacts");
       dispatch( {
