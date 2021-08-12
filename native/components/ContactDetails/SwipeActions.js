@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { StyleSheet, View, Text, FlatList } from 'react-native'
+import { StyleSheet, View, FlatList } from 'react-native'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {CONTACT_COMPONENT_WIDTH, CONTACT_COMPONENT_HEIGHT} from '@sita/dimensions';
@@ -38,8 +38,10 @@ export default function SwipeActions (props) {
     }
   }
 
+  var alreadyScrolled = false;
   function handleScroll(scrollDetails) {
-    if (scrollDetails.nativeEvent.contentOffset.x < 5) {
+    if (scrollDetails.nativeEvent.contentOffset.x < 5 && !alreadyScrolled) {
+      alreadyScrolled = true;
       // close enough to consider the swipe right done
       osRef.current.scrollToIndex({index: 1})
       props.swipeRightAction();

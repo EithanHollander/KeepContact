@@ -1,20 +1,19 @@
 
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import {CONTACT_COMPONENT_WIDTH, CONTACT_COMPONENT_HEIGHT} from '@sita/dimensions';
 
 import { connect } from 'react-redux'
 import { getContacts } from 'sitapp/store/actions/contactsActions';
-
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { wocIcon } from '@sita/woc';
-import TimeDiff from 'js-time-diff';
-
 import axios from 'axios';
 import SERVER_IP_ADDRESS from '@sita/ips';
 
 import SwipeActions from '@sit/ContactDetails/SwipeActions';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { wocIcon } from '@sita/woc';
+import TimeDiff from 'js-time-diff';
+
+
 
 function Contact (props) {
   const {style, contactDetails, getContacts} = props;
@@ -38,7 +37,9 @@ function Contact (props) {
 
   return (
     <View style={[styles.Contact, style]}>
+
       <SwipeActions swipeRightAction={updateComm}/>
+
       <View style={styles.ContactNameContainer}>
         <Text style={styles.ContactNameText}>{contactDetails.name}</Text>
       </View>
@@ -55,9 +56,7 @@ function Contact (props) {
           <MaterialIcons name='schedule' size={30} color='#5af' />
           <Text> {timeToDisplay(contactDetails.nextComm)}</Text>
         </View>
-
       </View>
-
 
     </View>
   );

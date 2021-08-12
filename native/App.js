@@ -9,6 +9,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-nati
 import AddContactButton from '@sit/AddingContactProcess/AddContactButton';
 import Stack from '@sit/Stack';
 
+
 export default function App() {
 
   return (

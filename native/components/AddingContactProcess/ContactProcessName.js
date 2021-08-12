@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TextInput, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, View, TextInput, Keyboard, TouchableWithoutFeedback } from 'react-native';
 
 export default function ContactProcessName (props) {
 

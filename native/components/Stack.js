@@ -1,5 +1,5 @@
 import React, {useEffect } from 'react';
-import { StyleSheet, View, Text, FlatList, ScrollView } from 'react-native';
+import { StyleSheet, View, FlatList } from 'react-native';
 import { connect } from 'react-redux'
 import { getContacts } from 'sitapp/store/actions/contactsActions';
 
@@ -9,6 +9,7 @@ function Stack (props) {
 
   const {contacts} = props.contacts;
   var updateContactsListInterval;
+
 
   useEffect(() => {
     props.getContacts();
@@ -34,8 +35,7 @@ function Stack (props) {
         renderItem={renderContact}
         keyExtractor={item => item._id}
         showsVerticalScrollIndicator={false}
-      >
-      </FlatList>
+      />
     </View>
   );
 }
