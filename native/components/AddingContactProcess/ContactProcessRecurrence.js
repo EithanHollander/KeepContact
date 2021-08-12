@@ -47,7 +47,6 @@ export default function ContactProcessRecurrence(props) {
           <TextInput
             style={[styles.NumberInput, (amountValid ? styles.valid : styles.invalid)]}
             keyboardType='numeric'
-            autoFocus={true}
             value={recurrence.amount}
             onChangeText={setAmount}
           >
@@ -82,7 +81,9 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     flexDirection: 'column',
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-evenly',
+    paddingBottom: 40,
+    paddingTop: 40
   },
   chooseAmountRow: {
     height: 50,

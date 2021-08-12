@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, View, Modal, Text, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, View, Modal, Text, TouchableOpacity, TextInput, ScrollView, TouchableWithoutFeedback } from 'react-native';
 
 import axios from 'axios';
 import SERVER_IP_ADDRESS from '@sita/ips';
@@ -8,7 +8,6 @@ import { connect } from 'react-redux'
 import { getContacts } from 'sitapp/store/actions/contactsActions';
 
 import ContactProcessName from '@sit/AddingContactProcess/ContactProcessName';
-import ContactProcessWoc from '@sit/AddingContactProcess/ContactProcessWoc';
 import ContactProcessRecurrence from '@sit/AddingContactProcess/ContactProcessRecurrence';
 
 function AddContactModal (props) {
@@ -37,7 +36,7 @@ function AddContactModal (props) {
     setModalVisible(false);
   }
 
-  function pressCancel() {
+  function exitModal() {
     cleanup();
   }
 
@@ -64,9 +63,6 @@ function AddContactModal (props) {
         title = "Who are they?";
         break;
       case 1:
-        title = "What's their language?";
-        break;
-      case 2:
         title = "How Often?";
         break;
       default:
@@ -78,63 +74,62 @@ function AddContactModal (props) {
   return (
     <View>
       <Modal
-        animationType='slide'
+        animationType='fade'
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}
       >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+        <TouchableWithoutFeedback onPress={() => exitModal()}>
+          <View style={styles.centeredView}>
 
-            {/* Modal Titles */}
-            <View>
-              <Text style={styles.modalTitle}>Add a New Contact!</Text>
-              <Text style={styles.modalSecondTitle}>{titlePerStage()}</Text>
-            </View>
+            <TouchableWithoutFeedback onPress={null}>
+              <View style={styles.modalView}>
 
-            {/* Modal Details */}
-            <View style={[styles.modalInputs]}>
-              {modalStage === 0 && <ContactProcessName nameState={[newContact.name, setNewContact]} validState={[stageValidity, setStageValidity]}/>}
-              {modalStage === 1 && <ContactProcessWoc wocState={[newContact.woc, setNewContact]}/>}
-              {modalStage === 2 && <ContactProcessRecurrence recurrenceState={[newContact.recurrence, setNewContact]} validState={[stageValidity, setStageValidity]}/>}
-            </View>
+                {/* Modal Titles */}
+                <View>
+                  <Text style={styles.modalTitle}>{modalStage > 0 ? newContact.name : "Add a New Contact!"}</Text>
+                  <Text style={styles.modalSecondTitle}>{titlePerStage()}</Text>
+                </View>
 
-            {/* Modal Actions */}
-            <View style={styles.modalActions}>
-              {modalStage >= 0 &&
-                <TouchableOpacity
-                  style={[styles.Action, styles.LeftAction]}
-                  onPress={pressCancel}>
-                  <Text>Cancel</Text>
-                </TouchableOpacity>
-              }
-              {modalStage > 0 && modalStage <= 2 &&
-                <TouchableOpacity
-                  style={styles.Action}
-                  onPress={pressPrevious}>
-                  <Text>Previous</Text>
-                </TouchableOpacity>
-              }
-              {modalStage >= 0 && modalStage < 2 &&
-                <TouchableOpacity
-                  style={[styles.Action, styles.RightAction, (stageValidity? null : styles.disabledAction)]}
-                  disabled={!stageValidity}
-                  onPress={pressNext}>
-                  <Text>Next</Text>
-                </TouchableOpacity>
-              }
-              {modalStage === 2 &&
-                <TouchableOpacity
-                  style={[styles.Action, styles.RightAction, (stageValidity? null : styles.disabledAction)]}
-                  disabled={!stageValidity}
-                  onPress={pressAddContact}>
-                  <Text>Add</Text>
-                </TouchableOpacity>
-              }
-            </View>
+                {/* Modal Details */}
+                <View style={[styles.modalInputs]}>
+                  {modalStage === 0 && <ContactProcessName nameState={[newContact.name, setNewContact]} validState={[stageValidity, setStageValidity]}/>}
+                  {modalStage === 1 && <ContactProcessRecurrence recurrenceState={[newContact.recurrence, setNewContact]} validState={[stageValidity, setStageValidity]}/>}
+                </View>
+
+                {/* Modal Actions */}
+                <View style={styles.modalActions}>
+                  {modalStage > 0 && modalStage <= 1 &&
+                    <TouchableOpacity
+                      style={styles.Action}
+                      onPress={pressPrevious}>
+                      <Text>Previous</Text>
+                    </TouchableOpacity>
+                  }
+                  {modalStage >= 0 && modalStage < 1 &&
+                    <TouchableOpacity
+                      style={[styles.Action, (stageValidity? null : styles.disabledAction)]}
+                      disabled={!stageValidity}
+                      onPress={pressNext}>
+                      <Text>Next</Text>
+                    </TouchableOpacity>
+                  }
+                  {modalStage === 1 &&
+                    <TouchableOpacity
+                      style={[styles.Action, (stageValidity? null : styles.disabledAction)]}
+                      disabled={!stageValidity}
+                      onPress={pressAddContact}>
+                      <Text>Add</Text>
+                    </TouchableOpacity>
+                  }
+                </View>
+
+              </View>
+            </TouchableWithoutFeedback>
 
           </View>
-        </View>
+        </TouchableWithoutFeedback>
+
       </Modal>
     </View>
   );
@@ -157,7 +152,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5
+    elevation: 5,
   },
   modalTitle: {
     textAlign: 'center',
@@ -179,7 +174,7 @@ const styles = StyleSheet.create({
     height: 40
   },
   Action: {
-    backgroundColor: '#5af',
+    backgroundColor: 'rgba(200,200,200,0.1)',
     minWidth: '33%',
     flexGrow: 1,
     alignItems: 'center',
@@ -187,6 +182,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: '100%',
     borderWidth: 1,
+    borderRadius: 10,
     borderColor: 'white'
   },
   LeftAction: {
@@ -199,7 +195,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 10
   },
   disabledAction: {
-    opacity: 0.5
+    opacity: 0
   }
 })
 

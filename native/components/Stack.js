@@ -3,8 +3,7 @@ import { StyleSheet, View, Text, FlatList, ScrollView } from 'react-native';
 import { connect } from 'react-redux'
 import { getContacts } from 'sitapp/store/actions/contactsActions';
 
-import Contact from '@sit/Contact';
-
+import Contact from '@sit/ContactDetails/Contact';
 
 function Stack (props) {
 

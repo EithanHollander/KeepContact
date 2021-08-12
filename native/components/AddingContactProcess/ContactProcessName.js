@@ -20,13 +20,12 @@ export default function ContactProcessName (props) {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.ContactProcessName}>
-            <TextInput
-              style={[styles.NameInput, (validAfterWriting ? styles.valid : styles.invalid)]}
-              placeholder="Contact's name"
-              onChangeText={setName}
-              value={name}
-              autoFocus={true}
-            />
+        <TextInput
+          style={[styles.NameInput, (validAfterWriting ? styles.valid : styles.invalid)]}
+          placeholder="Contact's name"
+          onChangeText={setName}
+          value={name}
+        />
       </View>
     </TouchableWithoutFeedback>
 

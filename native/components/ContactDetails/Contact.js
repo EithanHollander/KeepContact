@@ -1,6 +1,7 @@
 
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, FlatList } from 'react-native';
+import {CONTACT_COMPONENT_WIDTH, CONTACT_COMPONENT_HEIGHT} from '@sita/dimensions';
 
 import { connect } from 'react-redux'
 import { getContacts } from 'sitapp/store/actions/contactsActions';
@@ -12,6 +13,8 @@ import TimeDiff from 'js-time-diff';
 
 import axios from 'axios';
 import SERVER_IP_ADDRESS from '@sita/ips';
+
+import SwipeActions from '@sit/ContactDetails/SwipeActions';
 
 function Contact (props) {
   const {style, contactDetails, getContacts} = props;
@@ -35,34 +38,58 @@ function Contact (props) {
 
   return (
     <View style={[styles.Contact, style]}>
+      <SwipeActions swipeRightAction={updateComm}/>
+      <View style={styles.ContactNameContainer}>
+        <Text style={styles.ContactNameText}>{contactDetails.name}</Text>
+      </View>
+
       <View style={styles.ContactDetails}>
-        <View style={styles.ContactDetailRow}>
-            {wocIcon(contactDetails)}
-          <Text> {contactDetails.name}</Text>
+        <View style={styles.ContactWocRow}>
+          {wocIcon("whatsapp", contactDetails)}
+          {wocIcon("call", contactDetails)}
+          {wocIcon("meet", contactDetails)}
+          {wocIcon("email", contactDetails)}
         </View>
+
         <View style={styles.ContactDetailRow}>
           <MaterialIcons name='schedule' size={30} color='#5af' />
           <Text> {timeToDisplay(contactDetails.nextComm)}</Text>
         </View>
+
       </View>
-      <View style={styles.ContactActions}>
-        <TouchableOpacity onPress={() => {updateComm();}}>
-          <MaterialIcons name='done' size={30} color='#5af'/>
-        </TouchableOpacity>
-      </View>
+
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   Contact: {
-    width: 300,
-    height: 200,
+    width: CONTACT_COMPONENT_WIDTH,
+    height: CONTACT_COMPONENT_HEIGHT,
     backgroundColor: 'white',
     padding: 15,
     borderRadius: 20,
+    overflow: 'hidden',
+    flexDirection: 'column',
+  },
+  ContactDetails: {
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    flex: 1
+  },
+  ContactNameContainer: {
+    alignItems: 'center'
+  },
+  ContactNameText: {
+    fontSize: 22
+  },
+  ContactWocRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    alignItems: 'center',
+    width: '100%',
+    justifyContent: 'space-evenly'
   },
   ContactDetailRow: {
     flexDirection: 'row',

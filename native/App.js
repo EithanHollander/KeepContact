@@ -6,10 +6,8 @@ import { Provider } from 'react-redux';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 
-import Contact from '@sit/Contact';
-import Stack from '@sit/Stack';
 import AddContactButton from '@sit/AddingContactProcess/AddContactButton';
-
+import Stack from '@sit/Stack';
 
 export default function App() {
 

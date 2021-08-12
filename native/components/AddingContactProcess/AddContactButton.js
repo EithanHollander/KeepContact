@@ -24,7 +24,7 @@ export default function AddContactButton ({style}) {
 
 const styles = StyleSheet.create({
   AddContactButton: {
-    width: '100%',
+    width: 300,
     alignItems: 'center',
     justifyContent: 'center',
     height: 40,

@@ -1,21 +1,21 @@
 // WOC:
-// - empty
-// - WhatsApp
+// - whatsapp
 // - call
 // - meet
+// - email
 
 import React from 'react';
 import {TouchableOpacity, Linking, Platform} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-function wocIcon(contactDetails) {
+function wocIcon(wocType, contactDetails) {
   var icon;
-  switch (contactDetails.woc) {
-    case "empty":
+  switch (wocType) {
+    case "email":
       icon = (
-        <TouchableOpacity onPress={() => alert("person")}>
-          <MaterialIcons name='person-outline' size={30} color='#5af'/>
+        <TouchableOpacity onPress={() => alert("email")}>
+          <MaterialCommunityIcons name='email-outline' size={30} color='#5af'/>
         </TouchableOpacity>
       )
       break;
