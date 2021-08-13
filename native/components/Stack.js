@@ -10,7 +10,6 @@ function Stack (props) {
   const {contacts} = props.contacts;
   var updateContactsListInterval;
 
-
   useEffect(() => {
     props.getContacts();
     if (updateContactsListInterval) clearInterval(updateContactsListInterval);
@@ -35,6 +34,7 @@ function Stack (props) {
         renderItem={renderContact}
         keyExtractor={item => item._id}
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps={'always'}
       />
     </View>
   );

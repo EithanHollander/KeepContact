@@ -19,7 +19,7 @@ function Contact (props) {
   const {style, contactDetails, getContacts} = props;
   function updateComm() {
     var now = new Date();
-    axios.put(SERVER_IP_ADDRESS + "/comm", {id: contactDetails._id, date: now.toJSON()}).then((res) => {
+    axios.put(SERVER_IP_ADDRESS + "/contacts/comm", {id: contactDetails._id, date: now.toJSON()}).then((res) => {
       getContacts();
     });
   }

@@ -4,11 +4,10 @@ import store from 'sitapp/store/store';
 import { Provider } from 'react-redux';
 
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 import AddContactButton from '@sit/AddingContactProcess/AddContactButton';
 import Stack from '@sit/Stack';
-
 
 export default function App() {
 

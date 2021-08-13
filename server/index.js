@@ -39,6 +39,7 @@ MongoClient.connect(uri, {useUnifiedTopology: true})
   const db = client.db('keep-contact-db');
   console.log('Connected to Keep Contact Database!');
 
+  // Get All Contacts
   app.get("/contacts", (req, res) => {
     db.collection('contacts').find().toArray().then(result => {
       result.sort((firstContact, secondContact) => {
@@ -53,6 +54,7 @@ MongoClient.connect(uri, {useUnifiedTopology: true})
     });
   });
 
+  // Add a new Contact
   app.post("/contacts", (req, res) => {
     console.log("POST: /contacts");
     const newContact = req.body;
@@ -71,8 +73,9 @@ MongoClient.connect(uri, {useUnifiedTopology: true})
     });
   });
 
-  app.put("/comm", (req, res) => {
-    console.log("PUT: /comm");
+  // Update last & next Comm of a Contact
+  app.put("/contacts/comm", (req, res) => {
+    console.log("PUT: /contacts/comm");
     console.log(req.body);
 
     const {id, date} = req.body;
@@ -84,10 +87,21 @@ MongoClient.connect(uri, {useUnifiedTopology: true})
       const newValue = { $set: {lastCommunicated: date, nextComm: nextComm.toJSON()} };
       console.log(newValue);
       db.collection('contacts').updateOne(query, newValue).then(() => {
-        res.send("Successfull PUT to comm");
+        res.send("Successfull PUT to contacts/comm");
       });
     })
+  })
 
+  app.put("/contacts/detail", (req ,res) => {
+    console.log("PUT: /contacts/detail");
+    console.log(req.body);
+
+    const {id, detail} = req.body;
+    const query = { _id: new ObjectId(id) };
+    const newValue = { $set: detail};
+    db.collection('contacts').updateOne(query, newValue).then(() => {
+      res.send("Successfully PUT to contacts/detail")
+    })
   })
 })
 .catch(error => console.error(error))

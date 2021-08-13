@@ -17,7 +17,7 @@ function Contact (props) {
 
   function updateComm() {
     var now = new Date();
-    axios.put(SERVER_IP_ADDRESS + "/comm", {id: props.value._id, date: now.toJSON()}).then((res) => {
+    axios.put(SERVER_IP_ADDRESS + "/contacts/comm", {id: props.value._id, date: now.toJSON()}).then((res) => {
       console.log(res.data);
       props.updateContactListFunction(prev => !prev);
     });

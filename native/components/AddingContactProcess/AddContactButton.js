@@ -16,7 +16,7 @@ export default function AddContactButton ({style}) {
         <Text>Add Contact</Text>
       </TouchableOpacity>
       <AddContactModal
-        visibilty={[modalVisible, setModalVisible]}
+        visibleState={[modalVisible, setModalVisible]}
       />
     </View>
   );

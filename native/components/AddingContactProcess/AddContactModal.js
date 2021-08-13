@@ -7,6 +7,7 @@ import SERVER_IP_ADDRESS from '@sita/ips';
 import { connect } from 'react-redux'
 import { getContacts } from 'sitapp/store/actions/contactsActions';
 
+import GeneralModal from '@sit/GeneralModal';
 import ContactProcessName from '@sit/AddingContactProcess/ContactProcessName';
 import ContactProcessDetails from '@sit/AddingContactProcess/ContactProcessDetails';
 import ContactProcessRecurrence from '@sit/AddingContactProcess/ContactProcessRecurrence';
@@ -24,22 +25,20 @@ function AddContactModal (props) {
     }
   }
 
-  const [modalVisible, setModalVisible] = props.visibilty;
+  const [modalVisible, setModalVisible] = props.visibleState;
   const [modalStage, setModalStage] = useState(0);
 
   const [newContact, setNewContact] = useState(EMPTY_CONTACT);
+  const setNameForContact = (text) => setNewContact(prev => ({...prev, name: text}));
+  const setPhoneForContact = (text) => setNewContact(prev => ({...prev, phone: text}));
+  const setEmailForContact = (text) => setNewContact(prev => ({...prev, email: text}));
+  const setrecurrenceForContact = (recurrence) => setNewContact(prev => ({...prev, recurrence: recurrence}));
   const [stageValidity, setStageValidity] = useState(false);
 
   function cleanup() {
     setModalStage(0);
     setNewContact(EMPTY_CONTACT);
     setStageValidity(false);
-
-    setModalVisible(false);
-  }
-
-  function exitModal() {
-    cleanup();
   }
 
   function pressPrevious() {
@@ -48,7 +47,7 @@ function AddContactModal (props) {
   }
 
   function pressNext() {
-      setModalStage(prev => prev+1);
+    setModalStage(prev => prev+1);
   }
 
   function pressAddContact() {
@@ -56,6 +55,7 @@ function AddContactModal (props) {
       props.getContacts();
     });
     cleanup();
+    setModalVisible(false);
   }
 
   function titlePerStage() {
@@ -77,89 +77,59 @@ function AddContactModal (props) {
   }
 
   return (
-    <View>
-      <Modal
-        animationType='fade'
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <TouchableWithoutFeedback onPress={() => exitModal()}>
-          <View style={styles.centeredView}>
 
-            <TouchableWithoutFeedback onPress={null}>
-              <View style={styles.modalView}>
+    <GeneralModal visibleState={props.visibleState} exitOverload={cleanup}>
+      {/* Modal Titles */}
+      <View>
+        <Text style={styles.modalTitle}>{modalStage > 0 ? newContact.name : "Add a New Contact!"}</Text>
+        <Text style={styles.modalSecondTitle}>{titlePerStage()}</Text>
+      </View>
 
-                {/* Modal Titles */}
-                <View>
-                  <Text style={styles.modalTitle}>{modalStage > 0 ? newContact.name : "Add a New Contact!"}</Text>
-                  <Text style={styles.modalSecondTitle}>{titlePerStage()}</Text>
-                </View>
+      {/* Modal Content */}
+      <View style={styles.modalContent}>
+        {modalStage === 0 && <ContactProcessName
+          nameState={[newContact.name, setNameForContact]}
+          stageState={[stageValidity, setStageValidity, {nameNecessary: true}]}/>}
+        {modalStage === 1 && <ContactProcessRecurrence
+          recurrenceState={[newContact.recurrence, setrecurrenceForContact]}
+          stageState={[stageValidity, setStageValidity, {recurrenceNecessary: true}]}/>}
+        {modalStage === 2 && <ContactProcessDetails
+          emailState={[newContact.email, setEmailForContact]}
+          phoneState={[newContact.phone, setPhoneForContact]}
+          stageState={[stageValidity, setStageValidity, {emailNecessary: false, phoneNecessary: false}]}/>}
+      </View>
 
-                {/* Modal Details */}
-                <View style={[styles.modalInputs]}>
-                  {modalStage === 0 && <ContactProcessName nameState={[newContact.name, setNewContact]} validState={[stageValidity, setStageValidity]}/>}
-                  {modalStage === 1 && <ContactProcessRecurrence recurrenceState={[newContact.recurrence, setNewContact]} validState={[stageValidity, setStageValidity]}/>}
-                  {modalStage === 2 && <ContactProcessDetails emailState={[newContact.email, setNewContact]} phoneState={[newContact.phone, setNewContact]} validState={[stageValidity, setStageValidity]}/>}
-                </View>
-
-                {/* Modal Actions */}
-                <View style={styles.modalActions}>
-                  {modalStage > 0 && modalStage <= 2 &&
-                    <TouchableOpacity
-                      style={styles.Action}
-                      onPress={pressPrevious}>
-                      <Text>Previous</Text>
-                    </TouchableOpacity>
-                  }
-                  {modalStage >= 0 && modalStage < 2 &&
-                    <TouchableOpacity
-                      style={[styles.Action, (stageValidity? null : styles.disabledAction)]}
-                      disabled={!stageValidity}
-                      onPress={pressNext}>
-                      <Text>Next</Text>
-                    </TouchableOpacity>
-                  }
-                  {modalStage === 2 &&
-                    <TouchableOpacity
-                      style={[styles.Action, (stageValidity? null : styles.disabledAction)]}
-                      disabled={!stageValidity}
-                      onPress={pressAddContact}>
-                      <Text>Add</Text>
-                    </TouchableOpacity>
-                  }
-                </View>
-
-              </View>
-            </TouchableWithoutFeedback>
-
-          </View>
-        </TouchableWithoutFeedback>
-
-      </Modal>
-    </View>
+      {/* Modal Actions */}
+      <View style={styles.modalActions}>
+        {modalStage > 0 && modalStage <= 2 &&
+          <TouchableOpacity
+            style={styles.Action}
+            onPress={pressPrevious}>
+            <Text>Previous</Text>
+          </TouchableOpacity>
+        }
+        {modalStage >= 0 && modalStage < 2 &&
+          <TouchableOpacity
+            style={[styles.Action, (stageValidity? null : styles.disabledAction)]}
+            disabled={!stageValidity}
+            onPress={pressNext}>
+            <Text>Next</Text>
+          </TouchableOpacity>
+        }
+        {modalStage === 2 &&
+          <TouchableOpacity
+            style={[styles.Action, (stageValidity? null : styles.disabledAction)]}
+            disabled={!stageValidity}
+            onPress={pressAddContact}>
+            <Text>Add</Text>
+          </TouchableOpacity>
+        }
+      </View>
+    </GeneralModal>
   );
 };
 
 const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: 'rgba(0,0,0,0.7)'
-  },
-  modalView: {
-    width: 300,
-    height: 400,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 30,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
   modalTitle: {
     textAlign: 'center',
     fontSize: 23
@@ -168,7 +138,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 17
   },
-  modalInputs: {
+  modalContent: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
