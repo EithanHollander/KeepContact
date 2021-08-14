@@ -10,30 +10,14 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import EditContactPhoneModal from '@sit/ContactFieldsEditing/EditContactPhoneModal';
+import EditContactEmailModal from '@sit/ContactFieldsEditing/EditContactEmailModal';
 
 
 function EmailWOC({contactDetails}) {
+  const [modalVisible, setModalVisible] = useState(false);
   function handlePress() {
     if (contactDetails.email) {
       Linking.openURL('mailto: ' + contactDetails.email);
-    } else {
-      alert("need to set email!");
-    }
-  }
-  return (
-    <TouchableOpacity onPress={handlePress}>
-      <MaterialCommunityIcons name='email-outline' size={30} color={contactDetails.email ? '#5af' : 'rgba(85,170,255,0.4)'}/>
-    </TouchableOpacity>
-  );
-}
-export {EmailWOC};
-
-
-function WhatsappWOC({contactDetails}) {
-  const [modalVisible, setModalVisible] = useState(false);
-  function handlePress() {
-    if (contactDetails.phone) {
-      Linking.openURL('whatsapp://send?text=היי, מה קורה?&phone=' + contactDetails.phone)
     } else {
       setModalVisible(true);
     }
@@ -44,7 +28,37 @@ function WhatsappWOC({contactDetails}) {
   return (
     <View>
       <TouchableOpacity onPress={handlePress} onLongPress={handleLongPress}>
-        <MaterialCommunityIcons name='whatsapp' size={30} color={contactDetails.phone ? '#5af' : 'rgba(85,170,255,0.4)'}/>
+        <MaterialCommunityIcons name='email-outline' size={30} color={contactDetails.email ? '#5af' : 'rgba(85,170,255,0.4)'}/>
+      </TouchableOpacity>
+
+      <EditContactEmailModal
+        visibleState={[modalVisible, setModalVisible]}
+        contactDetails={contactDetails}
+      />
+    </View>
+  );
+}
+export {EmailWOC};
+
+
+function WhatsappWOC({contactDetails}) {
+  const [modalVisible, setModalVisible] = useState(false);
+  const phoneValue = contactDetails.phone.fullFormat;
+
+  function handlePress() {
+    if (phoneValue) {
+      Linking.openURL('whatsapp://send?text=היי, מה קורה?&phone=' + phoneValue)
+    } else {
+      setModalVisible(true);
+    }
+  }
+  function handleLongPress() {
+    setModalVisible(true);
+  }
+  return (
+    <View>
+      <TouchableOpacity onPress={handlePress} onLongPress={handleLongPress}>
+        <MaterialCommunityIcons name='whatsapp' size={30} color={phoneValue ? '#5af' : 'rgba(85,170,255,0.4)'}/>
       </TouchableOpacity>
 
       <EditContactPhoneModal
@@ -60,13 +74,15 @@ export {WhatsappWOC};
 
 function PhoneCallWOC({contactDetails}) {
   const [modalVisible, setModalVisible] = useState(false);
+  const phoneValue = contactDetails.phone.fullFormat;
+
   function handlePress() {
-    if (contactDetails.phone) {
+    if (phoneValue) {
       if (Platform.OS !== 'android') {
-        Linking.openURL('telprompt:' + contactDetails.phone);
+        Linking.openURL('telprompt:' + phoneValue);
       }
       else {
-        Linking.openURL('tel:' + contactDetails.phone);
+        Linking.openURL('tel:' + phoneValue);
       }
     } else {
       setModalVisible(true);
@@ -78,7 +94,7 @@ function PhoneCallWOC({contactDetails}) {
   return (
     <View>
       <TouchableOpacity onPress={handlePress} onLongPress={handleLongPress}>
-        <MaterialIcons name='call' size={30} color={contactDetails.phone ? '#5af' : 'rgba(85,170,255,0.4)'}/>
+        <MaterialIcons name='call' size={30} color={phoneValue ? '#5af' : 'rgba(85,170,255,0.4)'}/>
       </TouchableOpacity>
 
       <EditContactPhoneModal

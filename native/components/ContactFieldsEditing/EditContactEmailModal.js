@@ -8,12 +8,12 @@ import { connect } from 'react-redux'
 import { getContacts } from 'sitapp/store/actions/contactsActions';
 
 import GeneralModal from '@sit/GeneralModal';
-import ContactPhoneField from '@sit/ContactFields/ContactPhoneField';
+import ContactEmailField from '@sit/ContactFields/ContactEmailField';
 
-function EditContactPhoneModal (props) {
+function EditContactEmailModal (props) {
 
   const [modalVisible, setModalVisible] = props.visibleState;
-  const [phoneEditValue, setPhoneEditValue] = useState(props.contactDetails.phone);
+  const [emailEditValue, setEmailEditValue] = useState(props.contactDetails.email);
   const [validToEdit, setValidToEdit] = useState(false);
 
   const [stageValid, setStageValid] = useState(false);
@@ -23,7 +23,7 @@ function EditContactPhoneModal (props) {
   }, [validToEdit])
 
   function finishEditing() {
-    axios.put(SERVER_IP_ADDRESS + "/contacts/detail", {id: props.contactDetails._id, detail: {phone: phoneEditValue}}).then((res) => {
+    axios.put(SERVER_IP_ADDRESS + "/contacts/detail", {id: props.contactDetails._id, detail: {email: emailEditValue}}).then((res) => {
       props.getContacts();
     });
     setModalVisible(false);
@@ -35,14 +35,14 @@ function EditContactPhoneModal (props) {
       {/* Modal Titles */}
       <View>
         <Text style={styles.modalTitle}>{props.contactDetails.name}</Text>
-        <Text style={styles.modalSecondTitle}>Set Phone Number</Text>
+        <Text style={styles.modalSecondTitle}>Set Email</Text>
       </View>
 
       {/* Modal Content */}
       <View style={styles.modalContent}>
-        <View style={{height: '100%',width: '100%', justifyContent: 'space-evenly'}}>
-        <ContactPhoneField
-          phoneState={[phoneEditValue, setPhoneEditValue]}
+        <View style={{height: '100%', width: '100%', justifyContent: 'space-evenly'}}>
+        <ContactEmailField
+          emailState={[emailEditValue, setEmailEditValue]}
           validState={[validToEdit, setValidToEdit, {necessary: true}]}/>
         </View>
       </View>
@@ -98,4 +98,4 @@ const styles = StyleSheet.create({
 
 const mapStateToProps  = (state) => ({})
 
-export default connect(mapStateToProps, {getContacts})(EditContactPhoneModal);
+export default connect(mapStateToProps, {getContacts})(EditContactEmailModal);

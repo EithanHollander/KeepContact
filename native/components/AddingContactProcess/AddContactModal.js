@@ -16,7 +16,10 @@ function AddContactModal (props) {
 
   const EMPTY_CONTACT = {
     name: "",
-    phone: "",
+    phone: {
+      shortFormat: "",
+      fullFormat: ""
+    },
     email: "",
     lastCommunicated: new Date().toJSON(),
     recurrence: {
@@ -30,7 +33,7 @@ function AddContactModal (props) {
 
   const [newContact, setNewContact] = useState(EMPTY_CONTACT);
   const setNameForContact = (text) => setNewContact(prev => ({...prev, name: text}));
-  const setPhoneForContact = (text) => setNewContact(prev => ({...prev, phone: text}));
+  const setPhoneForContact = (phone) => setNewContact(prev => ({...prev, phone: phone}));
   const setEmailForContact = (text) => setNewContact(prev => ({...prev, email: text}));
   const setrecurrenceForContact = (recurrence) => setNewContact(prev => ({...prev, recurrence: recurrence}));
   const [stageValidity, setStageValidity] = useState(false);
