@@ -1,17 +1,17 @@
-import {GET_CONTACTS} from '../types';
+import {GET_CONNECTIONS} from '../types';
 
 const initialState = {
-    contacts:[],
+    connections:[],
     loading:true
 }
 
 export default function(state = initialState, action){
 
     switch(action.type){
-        case GET_CONTACTS:
+        case GET_CONNECTIONS:
           return {
               ...state,
-              contacts:action.payload,
+              connections:action.payload,
               loading:false
 
           }

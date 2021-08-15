@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import ContactPhoneField from '@sit/ContactFields/ContactPhoneField';
-import ContactEmailField from '@sit/ContactFields/ContactEmailField';
+import ConnectionPhoneField from '@sit/ConnectionFields/ConnectionPhoneField';
+import ConnectionEmailField from '@sit/ConnectionFields/ConnectionEmailField';
 
 
-export default function ContactProcessDetails (props) {
+export default function ConnectionProcessDetails (props) {
 
   const [stageValidity, setStageValidity, {phoneNecessary, emailNecessary}] = props.stageState;
 
@@ -17,15 +17,15 @@ export default function ContactProcessDetails (props) {
   }, [validPhone, validEmail])
 
   return (
-    <View style={styles.ContactProcessDetails}>
-      <ContactPhoneField validState={[validPhone, setValidPhone, {necessary: phoneNecessary}]} phoneState={props.phoneState}/>
-      <ContactEmailField validState={[validEmail, setValidEmail, {necessary: emailNecessary}]} emailState={props.emailState}/>
+    <View style={styles.ConnectionProcessDetails}>
+      <ConnectionPhoneField validState={[validPhone, setValidPhone, {necessary: phoneNecessary}]} phoneState={props.phoneState}/>
+      <ConnectionEmailField validState={[validEmail, setValidEmail, {necessary: emailNecessary}]} emailState={props.emailState}/>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  ContactProcessDetails: {
+  ConnectionProcessDetails: {
     height: '100%',
     width: '100%',
     justifyContent: 'space-evenly'

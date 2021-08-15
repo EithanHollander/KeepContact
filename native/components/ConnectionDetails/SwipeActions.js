@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { StyleSheet, View, FlatList } from 'react-native'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import {CONTACT_COMPONENT_WIDTH, CONTACT_COMPONENT_HEIGHT} from '@sita/dimensions';
+import {CONNECTION_COMPONENT_WIDTH, CONNECTION_COMPONENT_HEIGHT} from '@sita/dimensions';
 
 export default function SwipeActions (props) {
 
@@ -55,12 +55,12 @@ export default function SwipeActions (props) {
       ref={osRef}
       renderItem={renderOverlay}
       keyExtractor={item => item.id}
-      getItemLayout={(data, index) => ({length: CONTACT_COMPONENT_WIDTH, offset: CONTACT_COMPONENT_WIDTH*index, index: index})}
+      getItemLayout={(data, index) => ({length: CONNECTION_COMPONENT_WIDTH, offset: CONNECTION_COMPONENT_WIDTH*index, index: index})}
       initialScrollIndex={1}
       horizontal={true}
       showsHorizontalScrollIndicator={false}
       style={styles.OverlayContainer}
-      snapToInterval={CONTACT_COMPONENT_WIDTH}
+      snapToInterval={CONNECTION_COMPONENT_WIDTH}
       decelerationRate={'fast'}
       pagingEnabled={true}
       onScroll={handleScroll}
@@ -73,18 +73,18 @@ export default function SwipeActions (props) {
 const styles = StyleSheet.create({
   OverlayContainer: {
     position: 'absolute',
-    width: CONTACT_COMPONENT_WIDTH,
-    height: CONTACT_COMPONENT_HEIGHT,
+    width: CONNECTION_COMPONENT_WIDTH,
+    height: CONNECTION_COMPONENT_HEIGHT,
   },
   HiddenOverlay: {
-    width: CONTACT_COMPONENT_WIDTH,
-    height: CONTACT_COMPONENT_HEIGHT,
+    width: CONNECTION_COMPONENT_WIDTH,
+    height: CONNECTION_COMPONENT_HEIGHT,
     backgroundColor: 'transparent',
     opacity: 0
   },
   Overlay: {
-    width: CONTACT_COMPONENT_WIDTH,
-    height: CONTACT_COMPONENT_HEIGHT,
+    width: CONNECTION_COMPONENT_WIDTH,
+    height: CONNECTION_COMPONENT_HEIGHT,
     backgroundColor: 'rgba(85,170,255,0.4)',
     justifyContent: 'center',
     alignItems: 'center'

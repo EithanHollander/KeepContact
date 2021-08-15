@@ -2,8 +2,8 @@ import React, {useState, useRef, useEffect} from 'react';
 
 import PhoneInput from "react-native-phone-number-input";
 
-export default function ContactPhoneField (props) {
-  const [phoneValue, setPhoneForContact] = props.phoneState;
+export default function ConnectionPhoneField (props) {
+  const [phoneValue, setPhoneForConnection] = props.phoneState;
   const [shortFormat, setShortFormat] = useState(phoneValue.shortFormat);
   const [fullFormat, setFullFormat] = useState(phoneValue.fullFormat);
   const [validPhone, setValidPhone, {necessary}] = props.validState;
@@ -25,7 +25,7 @@ export default function ContactPhoneField (props) {
   },[])
 
   useEffect(() => {
-    setPhoneForContact({shortFormat: shortFormat, fullFormat: fullFormat});
+    setPhoneForConnection({shortFormat: shortFormat, fullFormat: fullFormat});
   }, [shortFormat, fullFormat])
 
   return (

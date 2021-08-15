@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, TextInput, TouchableOpacity, View, Text} from 'react-native';
 
-export default function ContactRecurrenceField(props) {
+export default function ConnectionRecurrenceField(props) {
 
-  const [recurrence, setRecurrenceForContact] = props.recurrenceState;
+  const [recurrence, setRecurrenceForConnection] = props.recurrenceState;
   const [validRecurrence, setValidRecurrence, {necessary}] = props.validState;
 
   function isRecurrenceValid(amountText) {
@@ -13,11 +13,11 @@ export default function ContactRecurrenceField(props) {
 
   function setAmount(text) {
     setValidRecurrence(isRecurrenceValid(text));
-    setRecurrenceForContact({...recurrence, amount: text});
+    setRecurrenceForConnection({...recurrence, amount: text});
   }
 
   function setJump(jump) {
-    setRecurrenceForContact({...recurrence, jump: jump});
+    setRecurrenceForConnection({...recurrence, jump: jump});
   }
 
   useEffect(() => {

@@ -24,7 +24,8 @@
     "react-redux": "^7.2.4",
     "redux": "^4.1.1",
     "redux-thunk": "^2.3.0",
-    "validate.js": "^0.13.1"
+    "validate.js": "^0.13.1",
+    "expo-contacts": "~9.2.5"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"

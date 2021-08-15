@@ -1,28 +1,28 @@
 import React, {useEffect } from 'react';
 import { StyleSheet, View, FlatList } from 'react-native';
 import { connect } from 'react-redux'
-import { getContacts } from 'sitapp/store/actions/contactsActions';
+import { getConnections } from 'sitapp/store/actions/connectionsActions';
 
-import Contact from '@sit/ContactDetails/Contact';
+import Connection from '@sit/ConnectionDetails/Connection';
 
 function Stack (props) {
 
-  const {contacts} = props.contacts;
-  var updateContactsListInterval;
+  const {connections} = props.connections;
+  var updateConnectionsListInterval;
 
   useEffect(() => {
-    props.getContacts();
-    if (updateContactsListInterval) clearInterval(updateContactsListInterval);
+    props.getConnections();
+    if (updateConnectionsListInterval) clearInterval(updateConnectionsListInterval);
     setInterval(() => {
-      props.getContacts();
+      props.getConnections();
     }, 10000)
   }, [])
 
-  function renderContact({item}) {
+  function renderConnection({item}) {
     return (
-      <Contact
-        style={styles.ContactExternalStyle}
-        contactDetails={item}
+      <Connection
+        style={styles.ConnectionExternalStyle}
+        connectionDetails={item}
       />
     )
   }
@@ -30,8 +30,8 @@ function Stack (props) {
   return (
     <View style={styles.Stack}>
       <FlatList
-        data={contacts}
-        renderItem={renderContact}
+        data={connections}
+        renderItem={renderConnection}
         keyExtractor={item => item._id}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps={'always'}
@@ -45,11 +45,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     height: 600
   },
-  ContactExternalStyle: {
+  ConnectionExternalStyle: {
     marginBottom: 10
   }
 });
 
-const mapStateToProps  = (state) => ({contacts:state.contacts})
+const mapStateToProps  = (state) => ({connections:state.connections})
 
-export default connect(mapStateToProps, {getContacts})(Stack);
+export default connect(mapStateToProps, {getConnections})(Stack);

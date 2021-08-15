@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, TextInput } from 'react-native';
 
-import ContactNameField from '@sit/ContactFields/ContactNameField';
+import ConnectionNameField from '@sit/ConnectionFields/ConnectionNameField';
 
-export default function ContactProcessName (props) {
+export default function ConnectionProcessName (props) {
 
   const [stageValidity, setStageValidity, {nameNecessary}] = props.stageState;
   const [validName, setValidName] = useState(!nameNecessary);
@@ -13,8 +13,8 @@ export default function ContactProcessName (props) {
   }, [validName])
 
   return (
-    <View style={styles.ContactProcessName}>
-      <ContactNameField
+    <View style={styles.ConnectionProcessName}>
+      <ConnectionNameField
         nameState={props.nameState}
         validState={[validName, setValidName, {necessary: nameNecessary}]}/>
     </View>
@@ -22,8 +22,7 @@ export default function ContactProcessName (props) {
 };
 
 const styles = StyleSheet.create({
-  ContactProcessName: {
-    height: '100%',
+  ConnectionProcessName: {
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center'

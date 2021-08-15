@@ -3,10 +3,10 @@ import {StyleSheet, TextInput} from 'react-native';
 
 import { validate } from 'validate.js';
 
-export default function ContactEmailField(props) {
+export default function ConnectionEmailField(props) {
   const constraints = {email: {email: true}};
 
-  const [emailValue, setEmailForContact] = props.emailState;
+  const [emailValue, setEmailForConnection] = props.emailState;
   const [validEmail, setValidEmail, {necessary}] = props.validState; // invalid only if the user entered a number and it was invalid
 
   function isEmailValid(text) {
@@ -15,7 +15,7 @@ export default function ContactEmailField(props) {
 
   function setEmail(text) {
     setValidEmail(isEmailValid(text));
-    setEmailForContact(text);
+    setEmailForConnection(text);
   }
 
   useEffect(() => {

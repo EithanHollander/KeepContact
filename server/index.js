@@ -36,71 +36,71 @@ function calcNextComm(lastComm, recurrence) {
 const uri = "mongodb://localhost:27017/";
 MongoClient.connect(uri, {useUnifiedTopology: true})
 .then(client => {
-  const db = client.db('keep-contact-db');
-  console.log('Connected to Keep Contact Database!');
+  const db = client.db('sit-db');
+  console.log('Connected to SIT Database!');
 
-  // Get All Contacts
-  app.get("/contacts", (req, res) => {
-    db.collection('contacts').find().toArray().then(result => {
-      result.sort((firstContact, secondContact) => {
-        var firstContactDate = new Date(firstContact.nextComm);
-        var secondContactDate = new Date(secondContact.nextComm);
-        return firstContactDate - secondContactDate;
+  // Get All Connections
+  app.get("/connections", (req, res) => {
+    db.collection('connections').find().toArray().then(result => {
+      result.sort((firstConnection, secondConnection) => {
+        var firstConnectionDate = new Date(firstConnection.nextComm);
+        var secondConnectionDate = new Date(secondConnection.nextComm);
+        return firstConnectionDate - secondConnectionDate;
       });
-      console.log("GET: /contacts");
+      console.log("GET: /connections");
       console.log(result);
 
       res.send(result);
     });
   });
 
-  // Add a new Contact
-  app.post("/contacts", (req, res) => {
-    console.log("POST: /contacts");
-    const newContact = req.body;
-    console.log(newContact);
+  // Add a new Connection
+  app.post("/connections", (req, res) => {
+    console.log("POST: /connections");
+    const newConnection = req.body;
+    console.log(newConnection);
 
-    const lastComm = new Date(newContact.lastCommunicated);
-    const nextComm = calcNextComm(lastComm, newContact.recurrence);
+    const lastComm = new Date(newConnection.lastCommunicated);
+    const nextComm = calcNextComm(lastComm, newConnection.recurrence);
 
-    contactToInsert = {
-      ...newContact,
+    connectionToInsert = {
+      ...newConnection,
       nextComm: nextComm.toJSON()
     }
 
-    db.collection('contacts').insertOne(contactToInsert).then(() => {
-      res.send("Successfull POST to contacts");
+    db.collection('connections').insertOne(connectionToInsert).then(() => {
+      res.send("Successfull POST to connections");
     });
   });
 
-  // Update last & next Comm of a Contact
-  app.put("/contacts/comm", (req, res) => {
-    console.log("PUT: /contacts/comm");
+  // Update last & next Comm of a Connection
+  app.put("/connections/comm", (req, res) => {
+    console.log("PUT: /connections/comm");
     console.log(req.body);
 
     const {id, date} = req.body;
     const query = { _id: new ObjectId(id) };
-    db.collection('contacts').findOne(query).then((result) => {
+    db.collection('connections').findOne(query).then((result) => {
       const newLastComm = new Date(date);
       const nextComm = calcNextComm(newLastComm, result.recurrence);
 
       const newValue = { $set: {lastCommunicated: date, nextComm: nextComm.toJSON()} };
       console.log(newValue);
-      db.collection('contacts').updateOne(query, newValue).then(() => {
-        res.send("Successfull PUT to contacts/comm");
+      db.collection('connections').updateOne(query, newValue).then(() => {
+        res.send("Successfull PUT to connections/comm");
       });
     })
   })
 
-  app.put("/contacts/detail", (req ,res) => {
-    console.log("PUT: /contacts/detail");
+  app.put("/connections/detail", (req ,res) => {
+    console.log("PUT: /connections/detail");
     console.log(req.body);
 
     const {id, detail} = req.body;
     const query = { _id: new ObjectId(id) };
     const newValue = { $set: detail};
-    db.collection('contacts').updateOne(query, newValue).then(() => {
-      res.send("Successfully PUT to contacts/detail")
+    db.collection('connections').updateOne(query, newValue).then(() => {
+      res.send("Successfully PUT to connections/detail")
     })
   })
 })

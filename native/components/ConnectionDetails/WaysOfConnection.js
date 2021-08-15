@@ -9,15 +9,15 @@ import { StyleeSheet, TouchableOpacity, Linking, Platform, View } from 'react-na
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import EditContactPhoneModal from '@sit/ContactFieldsEditing/EditContactPhoneModal';
-import EditContactEmailModal from '@sit/ContactFieldsEditing/EditContactEmailModal';
+import EditConnectionPhoneModal from '@sit/ConnectionFieldsEditing/EditConnectionPhoneModal';
+import EditConnectionEmailModal from '@sit/ConnectionFieldsEditing/EditConnectionEmailModal';
 
 
-function EmailWOC({contactDetails}) {
+function EmailWOC({connectionDetails}) {
   const [modalVisible, setModalVisible] = useState(false);
   function handlePress() {
-    if (contactDetails.email) {
-      Linking.openURL('mailto: ' + contactDetails.email);
+    if (connectionDetails.email) {
+      Linking.openURL('mailto: ' + connectionDetails.email);
     } else {
       setModalVisible(true);
     }
@@ -28,12 +28,12 @@ function EmailWOC({contactDetails}) {
   return (
     <View>
       <TouchableOpacity onPress={handlePress} onLongPress={handleLongPress}>
-        <MaterialCommunityIcons name='email-outline' size={30} color={contactDetails.email ? '#5af' : 'rgba(85,170,255,0.4)'}/>
+        <MaterialCommunityIcons name='email-outline' size={30} color={connectionDetails.email ? '#5af' : 'rgba(85,170,255,0.4)'}/>
       </TouchableOpacity>
 
-      <EditContactEmailModal
+      <EditConnectionEmailModal
         visibleState={[modalVisible, setModalVisible]}
-        contactDetails={contactDetails}
+        connectionDetails={connectionDetails}
       />
     </View>
   );
@@ -41,9 +41,9 @@ function EmailWOC({contactDetails}) {
 export {EmailWOC};
 
 
-function WhatsappWOC({contactDetails}) {
+function WhatsappWOC({connectionDetails}) {
   const [modalVisible, setModalVisible] = useState(false);
-  const phoneValue = contactDetails.phone.fullFormat;
+  const phoneValue = connectionDetails.phone.fullFormat;
 
   function handlePress() {
     if (phoneValue) {
@@ -61,9 +61,9 @@ function WhatsappWOC({contactDetails}) {
         <MaterialCommunityIcons name='whatsapp' size={30} color={phoneValue ? '#5af' : 'rgba(85,170,255,0.4)'}/>
       </TouchableOpacity>
 
-      <EditContactPhoneModal
+      <EditConnectionPhoneModal
         visibleState={[modalVisible, setModalVisible]}
-        contactDetails={contactDetails}
+        connectionDetails={connectionDetails}
       />
 
     </View>
@@ -72,9 +72,9 @@ function WhatsappWOC({contactDetails}) {
 export {WhatsappWOC};
 
 
-function PhoneCallWOC({contactDetails}) {
+function PhoneCallWOC({connectionDetails}) {
   const [modalVisible, setModalVisible] = useState(false);
-  const phoneValue = contactDetails.phone.fullFormat;
+  const phoneValue = connectionDetails.phone.fullFormat;
 
   function handlePress() {
     if (phoneValue) {
@@ -97,9 +97,9 @@ function PhoneCallWOC({contactDetails}) {
         <MaterialIcons name='call' size={30} color={phoneValue ? '#5af' : 'rgba(85,170,255,0.4)'}/>
       </TouchableOpacity>
 
-      <EditContactPhoneModal
+      <EditConnectionPhoneModal
         visibleState={[modalVisible, setModalVisible]}
-        contactDetails={contactDetails}
+        connectionDetails={connectionDetails}
       />
     </View>
   );
@@ -107,7 +107,7 @@ function PhoneCallWOC({contactDetails}) {
 export {PhoneCallWOC};
 
 
-function MeetUpWOC({contactDetails}) {
+function MeetUpWOC({connectionDetails}) {
   function handlePress() {
     if(Platform.OS === 'ios') {
       Linking.openURL('calshow:');

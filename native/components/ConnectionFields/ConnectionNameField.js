@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, TextInput} from 'react-native';
 
-export default function ContactNameField(props) {
+export default function ConnectionNameField(props) {
 
-  const [nameValue, setNameForContact] = props.nameState;
+  const [nameValue, setNameForConnection] = props.nameState;
   const [validName, setValidName, {necessary}] = props.validState; // invalid only if the user entered a number and it was invalid
 
   function isNameValid(text) {
@@ -12,7 +12,7 @@ export default function ContactNameField(props) {
 
   function setName(text) {
     setValidName(isNameValid(text));
-    setNameForContact(text);
+    setNameForConnection(text);
   }
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export default function ContactNameField(props) {
   return (
     <TextInput
       style={[styles.NameInput, (validName ? styles.valid : styles.invalid)]}
-      placeholder="Contact's name"
+      placeholder="Connection's name"
       onChangeText={setName}
       value={nameValue}
     />

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import ContactRecurrenceField from '@sit/ContactFields/ContactRecurrenceField';
+import ConnectionRecurrenceField from '@sit/ConnectionFields/ConnectionRecurrenceField';
 
-export default function ContactProcessRecurrence(props) {
+export default function ConnectionProcessRecurrence(props) {
 
   const [stageValidity, setStageValidity, {recurrenceNecessary}] = props.stageState;
   const [validRecurrence, setValidRecurrence] = useState(!recurrenceNecessary);
@@ -13,8 +13,8 @@ export default function ContactProcessRecurrence(props) {
   }, [validRecurrence])
 
   return (
-    <View style={styles.ContactProcessRecurrence}>
-      <ContactRecurrenceField
+    <View style={styles.ConnectionProcessRecurrence}>
+      <ConnectionRecurrenceField
         recurrenceState={props.recurrenceState}
         validState={[validRecurrence, setValidRecurrence, {necessary: recurrenceNecessary}]}/>
     </View>
@@ -22,7 +22,7 @@ export default function ContactProcessRecurrence(props) {
 };
 
 const styles = StyleSheet.create({
-  ContactProcessRecurrence: {
+  ConnectionProcessRecurrence: {
     width: '100%',
     height: '100%',
     alignItems: 'center',

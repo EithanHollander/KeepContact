@@ -5,15 +5,15 @@ import axios from 'axios';
 import SERVER_IP_ADDRESS from '@sita/ips';
 
 import { connect } from 'react-redux'
-import { getContacts } from 'sitapp/store/actions/contactsActions';
+import { getConnections } from 'sitapp/store/actions/connectionsActions';
 
 import GeneralModal from '@sit/GeneralModal';
-import ContactPhoneField from '@sit/ContactFields/ContactPhoneField';
+import ConnectionEmailField from '@sit/ConnectionFields/ConnectionEmailField';
 
-function EditContactPhoneModal (props) {
+function EditConnectionEmailModal (props) {
 
   const [modalVisible, setModalVisible] = props.visibleState;
-  const [phoneEditValue, setPhoneEditValue] = useState(props.contactDetails.phone);
+  const [emailEditValue, setEmailEditValue] = useState(props.connectionDetails.email);
   const [validToEdit, setValidToEdit] = useState(false);
 
   const [stageValid, setStageValid] = useState(false);
@@ -23,8 +23,8 @@ function EditContactPhoneModal (props) {
   }, [validToEdit])
 
   function finishEditing() {
-    axios.put(SERVER_IP_ADDRESS + "/contacts/detail", {id: props.contactDetails._id, detail: {phone: phoneEditValue}}).then((res) => {
-      props.getContacts();
+    axios.put(SERVER_IP_ADDRESS + "/connections/detail", {id: props.connectionDetails._id, detail: {email: emailEditValue}}).then((res) => {
+      props.getConnections();
     });
     setModalVisible(false);
   }
@@ -34,16 +34,16 @@ function EditContactPhoneModal (props) {
 
       {/* Modal Titles */}
       <View>
-        <Text style={styles.modalTitle}>{props.contactDetails.name}</Text>
-        <Text style={styles.modalSecondTitle}>Set Phone Number</Text>
+        <Text style={styles.modalTitle}>{props.connectionDetails.name}</Text>
+        <Text style={styles.modalSecondTitle}>Set Email</Text>
       </View>
 
       {/* Modal Content */}
       <View style={styles.modalContent}>
-        <View style={{height: '100%',width: '100%', justifyContent: 'space-evenly'}}>
-        <ContactPhoneField
-          phoneState={[phoneEditValue, setPhoneEditValue]}
-          validState={[validToEdit, setValidToEdit, {necessary: true}]}/>
+        <View style={{height: '100%', width: '100%', justifyContent: 'space-evenly'}}>
+          <ConnectionEmailField
+            emailState={[emailEditValue, setEmailEditValue]}
+            validState={[validToEdit, setValidToEdit, {necessary: true}]}/>
         </View>
       </View>
 
@@ -98,4 +98,4 @@ const styles = StyleSheet.create({
 
 const mapStateToProps  = (state) => ({})
 
-export default connect(mapStateToProps, {getContacts})(EditContactPhoneModal);
+export default connect(mapStateToProps, {getConnections})(EditConnectionEmailModal);
