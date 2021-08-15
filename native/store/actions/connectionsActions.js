@@ -4,16 +4,16 @@ import axios from 'axios';
 
 export const getConnections = () => async dispatch => {
   try {
-      const res = await axios.get(SERVER_IP_ADDRESS + "/connections");
-      dispatch( {
-          type: GET_CONNECTIONS,
-          payload: res.data
-      })
+    const res = await axios.get(SERVER_IP_ADDRESS + "/connections");
+    dispatch( {
+        type: GET_CONNECTIONS,
+        payload: res.data
+    })
   }
   catch(e){
-      dispatch( {
-          type: CONNECTIONS_ERROR,
-          payload: console.log(e)
-      })
+    dispatch( {
+        type: CONNECTIONS_ERROR,
+        payload: console.log(e)
+    })
   }
 }
