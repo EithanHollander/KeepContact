@@ -22,6 +22,11 @@ function EditConnectionEmailModal (props) {
     setStageValid(validToEdit);
   }, [validToEdit])
 
+  useEffect(() => {
+    setEmailEditValue(props.connectionDetails.email);
+  }, [props])
+
+
   function finishEditing() {
     axios.put(SERVER_IP_ADDRESS + "/connections/detail", {id: props.connectionDetails._id, detail: {email: emailEditValue}}).then((res) => {
       props.getConnections();

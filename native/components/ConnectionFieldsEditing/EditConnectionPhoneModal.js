@@ -22,6 +22,10 @@ function EditConnectionPhoneModal (props) {
     setStageValid(validToEdit);
   }, [validToEdit])
 
+  useEffect(() => {
+    setPhoneEditValue(props.connectionDetails.phone);
+  }, [props])
+
   function finishEditing() {
     axios.put(SERVER_IP_ADDRESS + "/connections/detail", {id: props.connectionDetails._id, detail: {phone: phoneEditValue}}).then((res) => {
       props.getConnections();

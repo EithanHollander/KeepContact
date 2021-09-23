@@ -20,7 +20,7 @@ export default function ConnectionEmailField(props) {
 
   useEffect(() => {
     setValidEmail(isEmailValid(emailValue));
-  },[])
+  },[emailValue])
 
   return (
     <TextInput

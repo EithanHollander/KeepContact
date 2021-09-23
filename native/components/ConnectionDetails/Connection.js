@@ -14,7 +14,8 @@ import { EmailWOC, WhatsappWOC, PhoneCallWOC, MeetUpWOC } from '@sit/ConnectionD
 import TimeDiff from 'js-time-diff';
 
 function Connection (props) {
-  const {style, connectionDetails, getConnections} = props;
+  const {style, getConnections} = props;
+  const [connectionDetails, setConnectionDetails] = useState(props.connectionDetails);
   function updateComm() {
     var now = new Date();
     axios.put(SERVER_IP_ADDRESS + "/connections/comm", {id: connectionDetails._id, date: now.toJSON()}).then((res) => {
@@ -32,6 +33,10 @@ function Connection (props) {
     }
     return timeDiff;
   }
+
+  useEffect(() => {
+    setConnectionDetails(props.connectionDetails);
+  },[props.connectionDetails])
 
   return (
     <View style={[styles.Connection, style]}>

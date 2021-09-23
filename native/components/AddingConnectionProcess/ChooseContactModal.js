@@ -1,83 +1,106 @@
 import React, {useState} from 'react';
-import { StyleSheet, View, Modal, Text, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, TouchableHighlight, FlatList, Modal, TextInput } from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import GeneralModal from '@sit/GeneralModal';
+import { connect } from 'react-redux'
+import { getContacts } from 'sitapp/store/actions/contactsActions';
+import { isLegalPhoneNumber } from '@sita/validity';
 
-export default function ChooseContactModal (props) {
+function ChooseContactModal (props) {
+
+  const {contacts, done} = props.contacts;
 
   const [modalVisible, setModalVisible] = props.visibleState;
   const [newConnection, setNewConnection] = props.connectionState;
 
-  function pressChooseContact() {
-    alert("Chosen!");
+  const [searchBarText, setSearchBarText] = useState("");
+  function chooseContact(item) {
+    const contactName = item.name;
+    const isLegalPhone = item.phoneNumbers ? isLegalPhoneNumber(item.phoneNumbers[0].number) : false;
+    const contactFullFormatPhone = isLegalPhone ? item.phoneNumbers[0].number : "";
+    // doesn't support formats which don't begin with +972, sorry not sorry. look at isLegaLPhoneNumber
+    const contactShortFormatPhone = contactFullFormatPhone ? contactFullFormatPhone.substring(4) : "";
+    const contactEmail = item.emails ? item.emails[0].email : "";
+
+    setNewConnection(prev => ({
+      ...prev,
+      name: contactName,
+      phone: {
+        shortFormat: contactShortFormatPhone,
+        fullFormat: contactFullFormatPhone
+      },
+      email: contactEmail
+    }));
+    exitModal();
   }
+
+  function renderContact({item}) {
+    return (
+      <TouchableHighlight onPress={() => chooseContact(item)} activeOpacity={0.8} underlayColor='rgba(85,170,255,0.8)'>
+        <View style={{flexDirection: 'column', height: 70, justifyContent: 'center', paddingLeft: 15, borderBottomColor: 'rgba(85,170,255,0.5)', borderBottomWidth: 1}}>
+          <Text style={{fontSize: 20, textAlign: 'left'}}>{item.name}</Text>
+          {item.phoneNumbers?
+            <Text style={{fontSize: 10}}>{item.phoneNumbers[0]?.number}</Text> :
+            <Text style={{fontSize: 10}}>{item.emails[0]?.email}</Text> }
+        </View>
+      </TouchableHighlight>
+    );
+  }
+
+  function exitModal() {
+    setSearchBarText("");
+    setModalVisible(false);
+  }
+
   return (
-    <GeneralModal visibleState={props.visibleState} exitOverload={() => null}>
-      {/* Modal Titles */}
-      <View>
-        <Text style={styles.modalTitle}>Choose From Contacts:</Text>
+    <Modal
+      animationType='fade'
+      transparent={true}
+      visible={modalVisible}
+      onRequestClose={exitModal}
+    >
+      <View style={styles.FullModal}>
+
+        <View style={styles.TopBar}>
+          <MaterialCommunityIcons name='close' size={30} color={'#5af'}/>
+          <TextInput
+            style={styles.SearchBar}
+            placeholder="Search Contact..."
+            value={searchBarText}
+            onChangeText={(text) => setSearchBarText(text)}/>
+        </View>
+        <FlatList
+          data={contacts.filter(contact => contact.name.includes(searchBarText))}
+          renderItem={renderContact}
+          keyExtractor={item => item.id}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps={'always'}
+        />
       </View>
 
-      {/* Modal Content */}
-      <View style={styles.modalContent}>
-        <Text>Hello</Text>
-      </View>
-
-      {/* Modal Actions */}
-      <View style={styles.modalActions}>
-        <TouchableOpacity
-          style={[styles.Action, (true? null : styles.disabledAction)]}
-          disabled={!true}
-          onPress={pressChooseContact}>
-          <Text>Choose</Text>
-        </TouchableOpacity>
-      </View>
-    </GeneralModal>
+    </Modal>
   );
 };
 
 const styles = StyleSheet.create({
-  modalTitle: {
-    textAlign: 'center',
-    fontSize: 23
+  FullModal: {
+    backgroundColor: 'white'
   },
-  modalSecondTitle: {
-    textAlign: 'center',
-    fontSize: 17
-  },
-  modalContent: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  modalActions: {
+  TopBar: {
+    height: 50,
+    backgroundColor: 'white',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: "flex-start",
-    height: 40
-  },
-  Action: {
-    backgroundColor: 'rgba(200,200,200,0.1)',
-    minWidth: '33%',
-    flexGrow: 1,
     alignItems: 'center',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    height: '100%',
-    borderWidth: 1,
-    borderRadius: 10,
-    borderColor: 'white'
+    paddingRight: 30,
+    borderBottomColor: "#5af",
+    borderBottomWidth: 3
   },
-  LeftAction: {
-    borderTopLeftRadius: 10,
-    borderBottomLeftRadius: 10,
-    backgroundColor: 'rgb(255,100,100)'
-  },
-  RightAction: {
-    borderTopRightRadius: 10,
-    borderBottomRightRadius: 10
-  },
-  disabledAction: {
-    opacity: 0
+  SearchBar: {
+    flex: 1,
+    height: '100%'
   }
 })
+
+const mapStateToProps  = (state) => ({contacts:state.contacts, done:state.done})
+
+export default connect(mapStateToProps, {getContacts})(ChooseContactModal);

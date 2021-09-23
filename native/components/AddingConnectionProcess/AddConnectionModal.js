@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, View, Modal, Text, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
 import axios from 'axios';
 import SERVER_IP_ADDRESS from '@sita/ips';

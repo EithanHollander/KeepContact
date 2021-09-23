@@ -17,7 +17,7 @@ export default function ConnectionNameField(props) {
 
   useEffect(() => {
     setValidName(isNameValid(nameValue));
-  },[])
+  },[nameValue])
 
   return (
     <TextInput

@@ -4,7 +4,7 @@
 // - meet
 // - email
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleeSheet, TouchableOpacity, Linking, Platform, View } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -13,8 +13,14 @@ import EditConnectionPhoneModal from '@sit/ConnectionFieldsEditing/EditConnectio
 import EditConnectionEmailModal from '@sit/ConnectionFieldsEditing/EditConnectionEmailModal';
 
 
-function EmailWOC({connectionDetails}) {
+function EmailWOC(props) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [connectionDetails, setConnectionDetails] = useState(props.connectionDetails);
+
+  useEffect(() => {
+    setConnectionDetails(props.connectionDetails);
+  },[props.connectionDetails])
+  
   function handlePress() {
     if (connectionDetails.email) {
       Linking.openURL('mailto: ' + connectionDetails.email);
@@ -41,11 +47,16 @@ function EmailWOC({connectionDetails}) {
 export {EmailWOC};
 
 
-function WhatsappWOC({connectionDetails}) {
+function WhatsappWOC(props) {
   const [modalVisible, setModalVisible] = useState(false);
-  const phoneValue = connectionDetails.phone.fullFormat;
+  const [connectionDetails, setConnectionDetails] = useState(props.connectionDetails);
+
+  useEffect(() => {
+    setConnectionDetails(props.connectionDetails);
+  },[props.connectionDetails])
 
   function handlePress() {
+    const phoneValue = connectionDetails.phone.fullFormat;
     if (phoneValue) {
       Linking.openURL('whatsapp://send?text=היי, מה קורה?&phone=' + phoneValue)
     } else {
@@ -58,7 +69,7 @@ function WhatsappWOC({connectionDetails}) {
   return (
     <View>
       <TouchableOpacity onPress={handlePress} onLongPress={handleLongPress}>
-        <MaterialCommunityIcons name='whatsapp' size={30} color={phoneValue ? '#5af' : 'rgba(85,170,255,0.4)'}/>
+        <MaterialCommunityIcons name='whatsapp' size={30} color={connectionDetails.phone.fullFormat ? '#5af' : 'rgba(85,170,255,0.4)'}/>
       </TouchableOpacity>
 
       <EditConnectionPhoneModal
@@ -72,11 +83,16 @@ function WhatsappWOC({connectionDetails}) {
 export {WhatsappWOC};
 
 
-function PhoneCallWOC({connectionDetails}) {
+function PhoneCallWOC(props) {
   const [modalVisible, setModalVisible] = useState(false);
-  const phoneValue = connectionDetails.phone.fullFormat;
+  const [connectionDetails, setConnectionDetails] = useState(props.connectionDetails);
+
+  useEffect(() => {
+    setConnectionDetails(props.connectionDetails);
+  },[props])
 
   function handlePress() {
+    const phoneValue = connectionDetails.phone.fullFormat;
     if (phoneValue) {
       if (Platform.OS !== 'android') {
         Linking.openURL('telprompt:' + phoneValue);
@@ -94,7 +110,7 @@ function PhoneCallWOC({connectionDetails}) {
   return (
     <View>
       <TouchableOpacity onPress={handlePress} onLongPress={handleLongPress}>
-        <MaterialIcons name='call' size={30} color={phoneValue ? '#5af' : 'rgba(85,170,255,0.4)'}/>
+        <MaterialIcons name='call' size={30} color={connectionDetails.phone.fullFormat ? '#5af' : 'rgba(85,170,255,0.4)'}/>
       </TouchableOpacity>
 
       <EditConnectionPhoneModal

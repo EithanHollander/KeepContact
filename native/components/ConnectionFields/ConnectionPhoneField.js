@@ -25,6 +25,10 @@ export default function ConnectionPhoneField (props) {
   },[])
 
   useEffect(() => {
+    setValidPhone(isValidPhone(phoneValue.shortFormat));
+  }, [phoneValue])
+
+  useEffect(() => {
     setPhoneForConnection({shortFormat: shortFormat, fullFormat: fullFormat});
   }, [shortFormat, fullFormat])
 
