@@ -1,10 +1,18 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { StyleSheet, View, FlatList } from 'react-native'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {CONNECTION_COMPONENT_WIDTH, CONNECTION_COMPONENT_HEIGHT} from '@sita/dimensions';
 
 export default function SwipeActions (props) {
+
+  const [swiped, setSwiped] = useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setSwiped(false);
+      osRef.current.scrollToIndex({index: 1})
+    }, 100)
+  }, [swiped])
 
   const SWIPE_OVERLAYS = [
     {
@@ -14,6 +22,10 @@ export default function SwipeActions (props) {
     {
       id: '2',
       name: ""
+    },
+    {
+      id: '3',
+      name: "snooze"
     }
   ]
 
@@ -23,13 +35,19 @@ export default function SwipeActions (props) {
     switch (item.id) {
       case '1':
         return (
-          <View style={styles.Overlay}>
+          <View style={[styles.Overlay, {backgroundColor: 'rgba(85,170,255,0.4)'}]}>
             <MaterialIcons name='done' size={30} color='#5af'/>
           </View>
         );
       case '2':
         return (
           <View style={styles.HiddenOverlay}/>
+        );
+      case '3':
+        return (
+          <View style={[styles.Overlay, {backgroundColor: 'rgba(130,130,130,0.4)'}]}>
+            <MaterialIcons name='snooze' size={30} color='#828282'/>
+          </View>
         );
       default:
         return (
@@ -38,13 +56,18 @@ export default function SwipeActions (props) {
     }
   }
 
-  var alreadyScrolled = false;
   function handleScroll(scrollDetails) {
-    if (scrollDetails.nativeEvent.contentOffset.x < 5 && !alreadyScrolled) {
-      alreadyScrolled = true;
+    if (scrollDetails.nativeEvent.contentOffset.x < 5 && !swiped) {
+      setSwiped(true);
       // close enough to consider the swipe right done
       osRef.current.scrollToIndex({index: 1})
       props.swipeRightAction();
+    }
+    else if (scrollDetails.nativeEvent.contentOffset.x > 595 && !swiped) {
+      setSwiped(true);
+      // close enough to consider the swipe left done
+      osRef.current.scrollToIndex({index: 1})
+      props.swipeLeftAction();
     }
   }
 
@@ -85,7 +108,6 @@ const styles = StyleSheet.create({
   Overlay: {
     width: CONNECTION_COMPONENT_WIDTH,
     height: CONNECTION_COMPONENT_HEIGHT,
-    backgroundColor: 'rgba(85,170,255,0.4)',
     justifyContent: 'center',
     alignItems: 'center'
   }

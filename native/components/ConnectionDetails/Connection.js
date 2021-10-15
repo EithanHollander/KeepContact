@@ -23,6 +23,10 @@ function Connection (props) {
     });
   }
 
+  function updateSnooze() {
+    console.log("snooze");
+  }
+
   function timeToDisplay(nextComm) {
     var timeDiff = TimeDiff(nextComm).toString();
     if (timeDiff.includes('after')) {
@@ -41,7 +45,7 @@ function Connection (props) {
   return (
     <View style={[styles.Connection, style]}>
 
-      <SwipeActions swipeRightAction={updateComm}/>
+      <SwipeActions swipeRightAction={updateComm} swipeLeftAction={updateSnooze}/>
 
       <View style={styles.ConnectionNameContainer}>
         <Text style={styles.ConnectionNameText}>{connectionDetails.name}</Text>
