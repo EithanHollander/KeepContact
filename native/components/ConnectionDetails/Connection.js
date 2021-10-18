@@ -17,9 +17,12 @@ function Connection (props) {
   const {style, getConnections} = props;
   const [connectionDetails, setConnectionDetails] = useState(props.connectionDetails);
   function updateComm() {
-    var now = new Date();
-    axios.put(SERVER_IP_ADDRESS + "/connections/comm", {id: connectionDetails._id, date: now.toJSON()}).then((res) => {
-      getConnections();
+    axios.patch(
+      SERVER_IP_ADDRESS + "/connections/" + connectionDetails._id.toString(),
+      {},
+      { params: { comm: true } })
+    .then((res) => {
+        getConnections();
     });
   }
 

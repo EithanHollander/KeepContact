@@ -22,7 +22,6 @@ function AddConnectionModal (props) {
       fullFormat: ""
     },
     email: "",
-    lastCommunicated: new Date().toJSON(),
     recurrence: {
       amount: "1",
       jump: "week"

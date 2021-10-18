@@ -1,14 +1,40 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const cors = require('cors');
+const cors = require("cors");
+const mongoose = require("mongoose");
 
 const PORT = process.env.PORT || 3001;
+mongoose.connect("mongodb://localhost:27017/sit-db", {useUnifiedTopology: true});
+
+const PhoneSchema = new mongoose.Schema({
+  shortFormat: String,
+  fullFormat: String
+});
+
+const RecurrenceSchema = new mongoose.Schema({
+  amount: Number,
+  jump: String
+});
+
+const ConnectionSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  phone: {
+    type: PhoneSchema,
+    required: true
+  },
+  lastCommunicated: Date,
+  nextComm: Date,
+  recurrence: {
+    type: RecurrenceSchema,
+    required: true
+  }
+});
+
+const Connection = new mongoose.model("Connection", ConnectionSchema);
 
 const app = express();
 app.use(bodyParser.json());
-
-const { MongoClient } = require("mongodb");
-const { ObjectId } = require('mongodb');
 
 function calcNextComm(lastComm, recurrence) {
   // lastComm: Date
@@ -33,82 +59,56 @@ function calcNextComm(lastComm, recurrence) {
   return nextComm;
 }
 
-const uri = "mongodb://localhost:27017/";
-MongoClient.connect(uri, {useUnifiedTopology: true})
-.then(client => {
-  const db = client.db('sit-db');
-  console.log('Connected to SIT Database!');
+app.get("/connections", async (req, res) => {
 
-  // Get All Connections
-  app.get("/connections", (req, res) => {
-    db.collection('connections').find().toArray().then(result => {
-      result.sort((firstConnection, secondConnection) => {
-        var firstConnectionDate = new Date(firstConnection.nextComm);
-        var secondConnectionDate = new Date(secondConnection.nextComm);
-        return firstConnectionDate - secondConnectionDate;
-      });
-      console.log("GET: /connections");
-      console.log(result);
+  let connections = await Connection.find().exec();
+  connections.sort((x,y) => {
+    var xDate = new Date(x.nextComm);
+    var yDate = new Date(y.nextComm);
+    return xDate - yDate;
+  });
+  res.send(connections);
+});
 
-      res.send(result);
-    });
+app.post("/connections", async (req, res) => {
+
+  const newConnection = req.body;
+  const currentDate = new Date();
+  const nextComm = calcNextComm(currentDate, newConnection.recurrence);
+
+  const connectionToInsert = new Connection({
+    ...newConnection,
+    lastCommunicated: currentDate,
+    nextComm: nextComm
   });
 
-  // Add a new Connection
-  app.post("/connections", (req, res) => {
-    console.log("POST: /connections");
-    const newConnection = req.body;
-    console.log(newConnection);
+  await connectionToInsert.save();
+  res.send();
+});
 
-    const lastComm = new Date(newConnection.lastCommunicated);
-    const nextComm = calcNextComm(lastComm, newConnection.recurrence);
+app.patch("/connections/:id", async (req, res) => {
+  const id = req.params.id;
+  const shouldUpdateComm = (req.query.comm === 'true');
+  let connectionToUpdate = await Connection.findById(id).exec();
 
-    connectionToInsert = {
-      ...newConnection,
-      nextComm: nextComm.toJSON()
-    }
+  if (shouldUpdateComm) {
+    const lastComm = new Date();
+    const nextComm = calcNextComm(lastComm, connectionToUpdate.recurrence);
 
-    db.collection('connections').insertOne(connectionToInsert).then(() => {
-      res.send("Successfull POST to connections");
-    });
-  });
+    connectionToUpdate.lastCommunicated = lastComm;
+    connectionToUpdate.nextComm = nextComm;
+    await connectionToUpdate.save();
 
-  // Update last & next Comm of a Connection
-  app.put("/connections/comm", (req, res) => {
-    console.log("PUT: /connections/comm");
-    console.log(req.body);
-
-    const {id, date} = req.body;
-    const query = { _id: new ObjectId(id) };
-    db.collection('connections').findOne(query).then((result) => {
-      const newLastComm = new Date(date);
-      const nextComm = calcNextComm(newLastComm, result.recurrence);
-
-      const newValue = { $set: {lastCommunicated: date, nextComm: nextComm.toJSON()} };
-      console.log(newValue);
-      db.collection('connections').updateOne(query, newValue).then(() => {
-        res.send("Successfull PUT to connections/comm");
-      });
-    })
-  })
-
-  app.put("/connections/detail", (req ,res) => {
-    console.log("PUT: /connections/detail");
-    console.log(req.body);
-
-    const {id, detail} = req.body;
-    const query = { _id: new ObjectId(id) };
-    const newValue = { $set: detail};
-    db.collection('connections').updateOne(query, newValue).then(() => {
-      res.send("Successfully PUT to connections/detail")
-    })
-  })
-})
-.catch(error => console.error(error))
+  } else {
+    const detail = req.body;
+    await Connection.findOneAndUpdate({_id: id}, detail);
+  }
+  res.send();
+});
 
 app.use(cors({
     origin: '*',
-    methods: ['GET','POST', 'PUT']
+    methods: ['GET','POST','PATCH']
 }));
 
 app.listen(PORT, () => {

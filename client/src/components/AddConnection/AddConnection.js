@@ -32,7 +32,6 @@ function AddConnection (props) {
 
   function postAddConnection () {
     axios.post(SERVER_IP_ADDRESS + "/contacts", newContact).then((res) => {
-      console.log(res.data);
       props.updateContactListFunction(prev => !prev);
     });
   }

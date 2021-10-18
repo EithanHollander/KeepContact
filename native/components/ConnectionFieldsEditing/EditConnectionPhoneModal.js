@@ -27,10 +27,14 @@ function EditConnectionPhoneModal (props) {
   }, [props])
 
   function finishEditing() {
-    axios.put(SERVER_IP_ADDRESS + "/connections/detail", {id: props.connectionDetails._id, detail: {phone: phoneEditValue}}).then((res) => {
+    axios.patch(
+      SERVER_IP_ADDRESS + "/connections/" + props.connectionDetails._id.toString(),
+      { phone: phoneEditValue },
+      { params: { comm: false } })
+    .then((res) => {
+      setModalVisible(false);
       props.getConnections();
     });
-    setModalVisible(false);
   }
 
   return (

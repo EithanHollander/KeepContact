@@ -28,10 +28,14 @@ function EditConnectionEmailModal (props) {
 
 
   function finishEditing() {
-    axios.put(SERVER_IP_ADDRESS + "/connections/detail", {id: props.connectionDetails._id, detail: {email: emailEditValue}}).then((res) => {
+    axios.patch(
+      SERVER_IP_ADDRESS + "/connections/" + props.connectionDetails._id.toString(),
+      { email: emailEditValue },
+      { params: { comm: false } })
+    .then((res) => {
+      setModalVisible(false);
       props.getConnections();
     });
-    setModalVisible(false);
   }
 
   return (

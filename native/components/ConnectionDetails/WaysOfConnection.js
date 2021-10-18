@@ -20,7 +20,7 @@ function EmailWOC(props) {
   useEffect(() => {
     setConnectionDetails(props.connectionDetails);
   },[props.connectionDetails])
-  
+
   function handlePress() {
     if (connectionDetails.email) {
       Linking.openURL('mailto: ' + connectionDetails.email);
@@ -134,7 +134,7 @@ function MeetUpWOC({connectionDetails}) {
 
   return (
     <TouchableOpacity onPress={handlePress}>
-      <MaterialIcons name='location-on' size={30} color='#5af'/>
+      <MaterialCommunityIcons name='calendar-month' size={30} color='#5af'/>
     </TouchableOpacity>
   );
 }
